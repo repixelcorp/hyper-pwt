@@ -40,7 +40,7 @@ jobs:
         run: |
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
           SHORT_SHA=$(git rev-parse --short HEAD)
-          VERSION="canary-${PACKAGE_VERSION}.${SHORT_SHA}"
+          VERSION="canary-${PACKAGE_VERSION}-${SHORT_SHA}"
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
 
       - name: Create and push tag
@@ -86,8 +86,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ steps.version.outputs.version }}
-          release_name: 🚀 New Canary Release (`${{ steps.version.outputs.version }}`)
-          body: ${{ steps.release_body.outputs.body }}
+          release_name: 🚀 New Canary Release (${{ steps.version.outputs.version }})
+          body: ${{ steps.release_contents.outputs.body }}
           draft: false
           prerelease: true
       
