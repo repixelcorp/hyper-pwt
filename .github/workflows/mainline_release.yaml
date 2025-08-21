@@ -1,0 +1,97 @@
+name: Mainline version Release
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+  release:
+    if: |
+      github.event.pull_request.merged == true &&
+      contains(github.event.pull_request.labels.*.name, 'release')
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: pnpm install
+      
+      - name: Get version and SHA
+        id: version
+        run: |
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          VERSION="${PACKAGE_VERSION}"
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Create and push tag
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git tag -a "${{ steps.version.outputs.version }}" -m "Release ${{ steps.version.outputs.version }}"
+          git push origin "${{ steps.version.outputs.version }}"
+
+      - name: Prepare release contents
+        id: release_contents
+        run: |
+          cat << 'EOF' > pr_body.txt
+          # 🚀 New Release (`${{ steps.version.outputs.version }}`)
+          
+          EOF
+
+          cat << 'EOF' > pr_body.txt
+          ${{ github.event.pull_request.body }}
+          EOF
+          
+          cat << 'EOF' >> pr_body.txt
+          
+          ## 📦 Installation
+          ```bash
+          npm install --dev <your-package-name>@${{ steps.version.outputs.version }}
+          ```
+          
+          EOF
+          
+          echo "body<<EOF" >> $GITHUB_OUTPUT
+          cat pr_body.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.version.outputs.version }}
+          release_name: 🚀 ${{ steps.version.outputs.version }}
+          body: ${{ steps.release_contents.outputs.body }}
+          draft: false
+          prerelease: false
+
+      - name: Build package
+        run: pnpm build
+
+      - name: Publish to NPM
+        run: |
+          npm publish --tag latest --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
