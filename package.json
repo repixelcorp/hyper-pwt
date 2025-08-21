@@ -2,6 +2,10 @@
   "name": "@repixelcorp/hyper-pwt",
   "version": "0.0.1",
   "description": "A faster, more modern, superior alternative for Mendix PWT.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/repixelcorp/hyper-pwt"
+  },
   "scripts": {
     "build": "rslib build",
     "watch": "rslib build --watch",
