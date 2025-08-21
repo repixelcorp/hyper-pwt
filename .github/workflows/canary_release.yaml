@@ -87,7 +87,7 @@ jobs:
         with:
           tag_name: ${{ steps.version.outputs.version }}
           release_name: 🚀 New Canary Release (`${{ steps.version.outputs.version }}`)
-          body: ${{ steps.release_body.outputs.body }}
+          body: ${{ steps.release_contents.outputs.body }}
           draft: false
           prerelease: true
       
