@@ -12,3 +12,5 @@ export const WEB_OUTPUT_DIRECTORY = path.join(PROJECT_DIRECTORY, `/${DIST_DIRECT
 export const COLOR_NAME = chalk.bold.blueBright;
 
 export const COLOR_ERROR = chalk.bold.red;
+
+export const COLOR_GREEN = chalk.bold.greenBright;
