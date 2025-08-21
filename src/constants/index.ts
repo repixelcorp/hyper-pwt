@@ -1,6 +1,9 @@
 import chalk from "chalk";
+import path from "path";
 
 export const PROJECT_DIRECTORY = process.cwd();
+
+export const CLI_DIRECTORY = path.join(PROJECT_DIRECTORY, 'node_modules/@repixelcorp/hyper-pwt');
 
 export const COLOR_NAME = chalk.bold.blueBright;
 
