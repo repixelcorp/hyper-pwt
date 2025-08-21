@@ -3,14 +3,17 @@
   "version": "1.0.0",
   "description": "Hyper pluggable widget tools for Mendix",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rslib build",
+    "watch": "rslib build --watch"
+  },
+  "bin": {
+    "hyper-pwt": "./dist/index.js"
   },
   "keywords": [],
   "author": "Repixel Co, Ltd.",
   "license": "MIT",
   "packageManager": "pnpm@10.15.0",
   "devDependencies": {
-    "@swc/cli": "0.7.8",
-    "@swc/core": "1.13.3"
+    "@rslib/core": "0.12.2"
   }
 }
