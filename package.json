@@ -6,7 +6,8 @@
     "build": "rslib build",
     "watch": "rslib build --watch",
     "start": "pnpm build && node ./dist/index.js",
-    "link": "pnpm build && npm link --force"
+    "link": "pnpm build && npm link --force",
+    "prepublishOnly": "pnpm build"
   },
   "bin": {
     "hyper-pwt": "/dist/index.js"
@@ -26,5 +27,8 @@
     "commander": "14.0.0",
     "vite": "7.1.3",
     "zip-a-folder": "3.1.9"
-  }
+  },
+  "files": [
+    "dist/**/*"
+  ]
 }
