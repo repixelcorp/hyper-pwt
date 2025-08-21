@@ -12,7 +12,7 @@
   "bin": {
     "hyper-pwt": "/dist/index.js"
   },
-  "keywords": [],
+  "keywords": ["mendix", "pwt", "mendix-pwt", "pluggable-widget-tools"],
   "author": "Repixel Co, Ltd.",
   "license": "MIT",
   "packageManager": "pnpm@10.15.0",
