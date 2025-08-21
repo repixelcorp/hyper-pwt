@@ -12,7 +12,7 @@ import getWidgetName from '../../../utils/getWidgetName';
 import getWidgetPackageJson from '../../../utils/getWidgetPackageJson';
 import getMendixWidgetDirectory from '../../../utils/getMendixWidgetDirectory';
 
-const buildCommand = async () => {
+const buildWebCommand = async () => {
   try {
     showMessage('Remove previous builds');
 
@@ -98,4 +98,4 @@ const buildCommand = async () => {
   }
 };
 
-export default buildCommand;
+export default buildWebCommand;
