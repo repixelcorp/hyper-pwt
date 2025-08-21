@@ -4,9 +4,9 @@ A faster, more modern, superior alternative for [Mendix PWT](https://github.com/
 
 ## Support pwt functions
 
-- [] start
-- [] dev
-- [] build
-- [] lint
-- [] release
-- [] generator
+- [ ] start
+- [ ] dev
+- [ ] build
+- [ ] lint
+- [ ] release
+- [ ] generator
