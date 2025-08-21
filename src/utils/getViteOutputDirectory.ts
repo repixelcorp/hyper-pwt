@@ -8,7 +8,7 @@ const getViteOutputDirectory = async (): Promise<string> => {
   const packagePath = packageJson.packagePath;
   const widgetName = packageJson.widgetName;
   const packageDirectories = packagePath.split('.');
-  const outputDir = path.join(PROJECT_DIRECTORY, `/${DIST_DIRECTORY_NAME}/tmp/widgets`, ...packageDirectories, widgetName.toLowerCase(), widgetName);
+  const outputDir = path.join(PROJECT_DIRECTORY, `/${DIST_DIRECTORY_NAME}/tmp/widgets`, ...packageDirectories, widgetName.toLowerCase());
 
   return outputDir;
 };
