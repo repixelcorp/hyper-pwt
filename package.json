@@ -32,5 +32,8 @@
     "dist/**/*",
     "package.json",
     "LICENSE"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }
