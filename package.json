@@ -1,6 +1,6 @@
 {
   "name": "@repixelcorp/hyper-pwt",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A faster, more modern, superior alternative for Mendix PWT.",
   "repository": {
     "type": "git",
@@ -19,7 +19,7 @@
     "mendix",
     "pwt",
     "mendix-pwt",
-    "pluggable-widget-tools"
+    "pluggable-widgets-tools"
   ],
   "author": "Repixel Co, Ltd.",
   "license": "MIT",

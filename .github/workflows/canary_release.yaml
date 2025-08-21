@@ -68,7 +68,7 @@ jobs:
           
           ## 📦 Installation
           ```bash
-          npm install --dev <your-package-name>@${{ steps.version.outputs.version }}
+          npm install --dev @repixelcorp/hyper-pwt@${{ steps.version.outputs.version }}
           ```
           
           ## ⚠️ Warning
