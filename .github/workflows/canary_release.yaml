@@ -40,7 +40,8 @@ jobs:
         run: |
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
           SHORT_SHA=$(git rev-parse --short HEAD)
-          VERSION="canary-${PACKAGE_VERSION}-${SHORT_SHA}"
+          VERSION_NUM=""
+          VERSION="${PACKAGE_VERSION}-canary-${SHORT_SHA}"
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
 
       - name: Create and push tag
