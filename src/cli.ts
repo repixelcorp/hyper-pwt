@@ -11,7 +11,16 @@ program.version(packageJson.version, '-v, --version', 'display current version')
 program
   .command('build:web')
   .summary('build web widget')
-  .action(buildWebCommand);
+  .action(async () => {
+    await buildWebCommand();
+  });
+
+program
+  .command('release:web')
+  .summary('release web widget')
+  .action(async () => {
+    await buildWebCommand(true);
+  });
 
 program
   .command('start:web')

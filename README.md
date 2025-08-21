@@ -41,7 +41,7 @@ TODO
 - [ ] start:native
 - [x] build:web
 - [ ] build:native
-- [ ] release:web
+- [x] release:web
 - [ ] release:native
 - [ ] lint
 - [ ] lint:fix
@@ -52,8 +52,8 @@ TODO
 
 ## Support platforms
 
-- [ ] Web
-  - [ ] Basic Functions
+- [x] Web
+  - [x] Basic Functions
   - [ ] Linter and Formatting
   - [ ] TDD Functions
 - [ ] Native
