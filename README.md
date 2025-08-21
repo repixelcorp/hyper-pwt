@@ -60,3 +60,13 @@ TODO
   - [ ] Basic Functions
   - [ ] Linter and Formatting
   - [ ] TDD Functions
+
+## License
+
+@repixelcorp/hyper-pwt is distributed under the MIT License.
+
+Please refer to the [LICENSE](./LICENSE).
+
+## Disclaimers
+
+Neither Repixel Co., Ltd., nor the project maintainers or contributors, are responsible for any problems arising from the use of this software. The user is entirely responsible.
