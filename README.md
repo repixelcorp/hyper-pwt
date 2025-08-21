@@ -12,7 +12,7 @@ First, install hyper-pwt from npm.
 npm install --dev @repixelcorp/hyper-pwt
 ```
 
-Second, replace pluggable-widget-tools to hyper-pwt in widget's package.json.
+Second, replace pluggable-widgets-tools to hyper-pwt in widget's package.json.
 
 ```json
 {
