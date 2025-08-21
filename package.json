@@ -1,7 +1,7 @@
 {
   "name": "hyper-pwt",
   "version": "1.0.0",
-  "description": "Hyper pluggable widget tools for Mendix",
+  "description": "A faster, more modern, superior alternative for Mendix PWT.",
   "scripts": {
     "build": "rslib build",
     "watch": "rslib build --watch"
