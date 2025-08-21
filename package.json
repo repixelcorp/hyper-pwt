@@ -5,10 +5,11 @@
   "scripts": {
     "build": "rslib build",
     "watch": "rslib build --watch",
-    "start": "pnpm build && node ./dist/index.js"
+    "start": "pnpm build && node ./dist/index.js",
+    "link": "pnpm build && npm link --force"
   },
   "bin": {
-    "hyper-pwt": "./dist/index.js"
+    "hyper-pwt": "/dist/index.js"
   },
   "keywords": [],
   "author": "Repixel Co, Ltd.",
