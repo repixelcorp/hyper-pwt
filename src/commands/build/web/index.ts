@@ -12,7 +12,7 @@ import getWidgetName from '../../../utils/getWidgetName';
 import getWidgetPackageJson from '../../../utils/getWidgetPackageJson';
 import getMendixWidgetDirectory from '../../../utils/getMendixWidgetDirectory';
 
-const buildWebCommand = async () => {
+const buildWebCommand = async (isProduction: boolean = false) => {
   try {
     showMessage('Remove previous builds');
 
@@ -40,9 +40,9 @@ const buildWebCommand = async () => {
     if (viteConfigIsExists) {
       const userConfig: UserConfig = await import(customViteConfigPath);
 
-      resultViteConfig = await getViteDefaultConfig(userConfig);
+      resultViteConfig = await getViteDefaultConfig(isProduction, userConfig);
     } else {
-      resultViteConfig = await getViteDefaultConfig();
+      resultViteConfig = await getViteDefaultConfig(isProduction);
     }
 
     const widgetName = await getWidgetName();
@@ -56,8 +56,8 @@ const buildWebCommand = async () => {
 
     showMessage('Start build');
     
-    const editorConfigViteConfig = await getEditorConfigDefaultConfig();
-    const editorPreviewViteConfig = await getEditorPreviewDefaultConfig();
+    const editorConfigViteConfig = await getEditorConfigDefaultConfig(isProduction);
+    const editorPreviewViteConfig = await getEditorPreviewDefaultConfig(isProduction);
     const viteBuildConfigs: InlineConfig[] = [
       {
         ...resultViteConfig,
