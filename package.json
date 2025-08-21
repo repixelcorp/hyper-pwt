@@ -1,10 +1,11 @@
 {
   "name": "hyper-pwt",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A faster, more modern, superior alternative for Mendix PWT.",
   "scripts": {
     "build": "rslib build",
-    "watch": "rslib build --watch"
+    "watch": "rslib build --watch",
+    "start": "pnpm build && node ./dist/index.js"
   },
   "bin": {
     "hyper-pwt": "./dist/index.js"
@@ -17,7 +18,7 @@
     "@rslib/core": "0.12.2"
   },
   "dependencies": {
-    "chalk": "^5.6.0",
-    "commander": "^14.0.0"
+    "chalk": "5.6.0",
+    "commander": "14.0.0"
   }
 }
