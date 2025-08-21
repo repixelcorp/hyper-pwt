@@ -5,7 +5,9 @@ export const PROJECT_DIRECTORY = process.cwd();
 
 export const CLI_DIRECTORY = path.join(PROJECT_DIRECTORY, 'node_modules/@repixelcorp/hyper-pwt');
 
-export const WEB_OUTPUT_DIRECTORY = path.join(PROJECT_DIRECTORY, '/dist/tmp/widgets');
+export const DIST_DIRECTORY_NAME = 'dist2';
+
+export const WEB_OUTPUT_DIRECTORY = path.join(PROJECT_DIRECTORY, `/${DIST_DIRECTORY_NAME}/tmp/widgets`);
 
 export const COLOR_NAME = chalk.bold.blueBright;
 
