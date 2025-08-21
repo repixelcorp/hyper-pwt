@@ -1,10 +1,10 @@
-name: Canary version Release
+name: Mainline version Release
 
 on:
   pull_request:
     types: [closed]
     branches:
-      - develop
+      - main
 
 jobs:
   release:
@@ -40,23 +40,21 @@ jobs:
         id: version
         run: |
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
-          SHORT_SHA=$(git rev-parse --short HEAD)
-          VERSION_NUM=""
-          VERSION="${PACKAGE_VERSION}-canary-${SHORT_SHA}"
+          VERSION="${PACKAGE_VERSION}"
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
 
       - name: Create and push tag
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git tag -a "${{ steps.version.outputs.version }}" -m "Canary release ${{ steps.version.outputs.version }}"
+          git tag -a "${{ steps.version.outputs.version }}" -m "Release ${{ steps.version.outputs.version }}"
           git push origin "${{ steps.version.outputs.version }}"
 
       - name: Prepare release contents
         id: release_contents
         run: |
           cat << 'EOF' > pr_body.txt
-          # 🚀 New Canary Release (`${{ steps.version.outputs.version }}`)
+          # 🚀 New Release (`${{ steps.version.outputs.version }}`)
           
           EOF
 
@@ -70,9 +68,6 @@ jobs:
           ```bash
           npm install --dev <your-package-name>@${{ steps.version.outputs.version }}
           ```
-          
-          ## ⚠️ Warning
-          This is a canary release and should not be used in production environments.
           
           EOF
           
@@ -90,17 +85,13 @@ jobs:
           release_name: 🚀 ${{ steps.version.outputs.version }}
           body: ${{ steps.release_contents.outputs.body }}
           draft: false
-          prerelease: true
-      
-      - name: Update package.json version
-        run: |
-          npm version ${{ steps.version.outputs.version }} --no-git-tag-version --allow-same-version
+          prerelease: false
 
       - name: Build package
         run: pnpm build
 
       - name: Publish to NPM
         run: |
-          npm publish --tag canary --access public
+          npm publish --tag latest --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

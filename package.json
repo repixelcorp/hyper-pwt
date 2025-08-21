@@ -1,22 +1,26 @@
 {
   "name": "@repixelcorp/hyper-pwt",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A faster, more modern, superior alternative for Mendix PWT.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/repixelcorp/hyper-pwt"
+    "url": "git+https://github.com/repixelcorp/hyper-pwt.git"
   },
   "scripts": {
     "build": "rslib build",
     "watch": "rslib build --watch",
     "start": "pnpm build && node ./dist/index.js",
-    "link": "pnpm build && npm link --force",
-    "prepublishOnly": "pnpm build"
+    "link": "pnpm build && npm link --force"
   },
   "bin": {
-    "hyper-pwt": "/dist/index.js"
+    "hyper-pwt": "dist/index.js"
   },
-  "keywords": ["mendix", "pwt", "mendix-pwt", "pluggable-widget-tools"],
+  "keywords": [
+    "mendix",
+    "pwt",
+    "mendix-pwt",
+    "pluggable-widget-tools"
+  ],
   "author": "Repixel Co, Ltd.",
   "license": "MIT",
   "packageManager": "pnpm@10.15.0",
@@ -38,6 +42,7 @@
     "LICENSE"
   ],
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
   }
 }
