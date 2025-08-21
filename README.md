@@ -17,7 +17,6 @@ Second, replace pluggable-widgets-tools to hyper-pwt in widget's package.json.
 ```json
 {
   "scripts": {
-    "start": "hyper-pwt start:server",
     "dev": "hyper-pwt start:web",
     "build": "hyper-pwt build:web",
     "lint": "hyper-pwt lint",
@@ -38,7 +37,7 @@ TODO
 
 ## Support pwt tasks
 
-- [ ] start:web
+- [x] start:web
 - [ ] start:native
 - [x] build:web
 - [ ] build:native
@@ -54,4 +53,10 @@ TODO
 ## Support platforms
 
 - [ ] Web
+  - [ ] Basic Functions
+  - [ ] Linter and Formatting
+  - [ ] TDD Functions
 - [ ] Native
+  - [ ] Basic Functions
+  - [ ] Linter and Formatting
+  - [ ] TDD Functions
