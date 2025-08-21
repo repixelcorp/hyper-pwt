@@ -219,4 +219,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Temp directory
+/tmp
+
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,node,visualstudiocode

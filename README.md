@@ -2,26 +2,19 @@
 
 A faster, more modern, superior alternative for [Mendix PWT](https://github.com/mendix/widgets-tools).
 
-## Support pwt functions
+## Support pwt tasks
 
-- [ ] start
-  - [ ] Web
-  - [ ] Native
-- [ ] dev
-  - [ ] Web
-  - [ ] Native
-- [ ] build
-  - [ ] Web
-  - [ ] Native
+- [ ] start:web
+- [ ] start:native
+- [x] build:web
+- [ ] build:native
+- [ ] release:web
+- [ ] release:native
 - [ ] lint
-  - [ ] Web
-  - [ ] Native
-- [ ] release
-  - [ ] Web
-  - [ ] Native
-- [ ] generator
-  - [ ] Web
-  - [ ] Native
+- [ ] lint:fix
+- [ ] format
+- [ ] test:unit:web
+- [ ] test:unit:native
 
 ## Support platforms
 
