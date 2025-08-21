@@ -5,7 +5,7 @@ export const PROJECT_DIRECTORY = process.cwd();
 
 export const CLI_DIRECTORY = path.join(PROJECT_DIRECTORY, 'node_modules/@repixelcorp/hyper-pwt');
 
-export const DIST_DIRECTORY_NAME = 'dist2';
+export const DIST_DIRECTORY_NAME = 'dist';
 
 export const WEB_OUTPUT_DIRECTORY = path.join(PROJECT_DIRECTORY, `/${DIST_DIRECTORY_NAME}/tmp/widgets`);
 
