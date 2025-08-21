@@ -7,6 +7,13 @@ settings:
 importers:
 
   .:
+    dependencies:
+      chalk:
+        specifier: ^5.6.0
+        version: 5.6.0
+      commander:
+        specifier: ^14.0.0
+        version: 14.0.0
     devDependencies:
       '@rslib/core':
         specifier: 0.12.2
@@ -193,6 +200,14 @@ packages:
 
   '@tybys/wasm-util@0.10.0':
     resolution: {integrity: sha512-VyyPYFlOMNylG45GoAe0xDoLwWuowvf92F9kySqzYh8vmYm7D2u4iUJKa1tOUpS70Ku13ASrOkS4ScXFsTaCNQ==}
+
+  chalk@5.6.0:
+    resolution: {integrity: sha512-46QrSQFyVSEyYAgQ22hQ+zDa60YHA4fBstHmtSApj1Y5vKtG27fWowW03jCk5KcbXEWPZUIR894aARCA/G1kfQ==}
+    engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
+
+  commander@14.0.0:
+    resolution: {integrity: sha512-2uM9rYjPvyq39NwLRqaiLtWHyDC1FvryJDa2ATTVims5YAS4PupsEQsDvP14FqhFr0P49CYDugi59xaxJlTXRA==}
+    engines: {node: '>=20'}
 
   core-js@3.45.1:
     resolution: {integrity: sha512-L4NPsJlCfZsPeXukyzHFlg/i7IIVwHSItR0wg0FLNqYClJ4MQYTYLbC7EkjKYRLZF2iof2MUgN0EGy7MdQFChg==}
@@ -424,6 +439,10 @@ snapshots:
     dependencies:
       tslib: 2.8.1
     optional: true
+
+  chalk@5.6.0: {}
+
+  commander@14.0.0: {}
 
   core-js@3.45.1: {}
 
