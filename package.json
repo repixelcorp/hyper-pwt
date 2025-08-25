@@ -39,7 +39,8 @@
   "files": [
     "dist/**/*",
     "package.json",
-    "LICENSE"
+    "LICENSE",
+    "src/configurations/hotReload/**/*"
   ],
   "publishConfig": {
     "access": "public",
