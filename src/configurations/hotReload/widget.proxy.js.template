@@ -44,10 +44,10 @@ function WidgetProxy(props) {
   const setupViteClient = async () => {
     await fetch(`${DEV_SERVER_URL}@vite/client`);
 
-    const clientModule = await import(`${DEV_SERVER_URL}@vite/client.mjs`);
+    const clientModule = await import(`${DEV_SERVER_URL}@vite/client.mjs?t=${Date.now()}`);
 
     if (clientModule.createHotContext) {
-      viteClientRef.current = clientModule.createHotContext(`${DEV_SERVER_URL}src/${WIDGET_NAME}.tsx`);
+      viteClientRef.current = clientModule.createHotContext(`${DEV_SERVER_URL}src/${WIDGET_NAME}.tsx?t=${Date.now()}`);
     }
 
     setViteClientInitialized(true);
@@ -63,9 +63,7 @@ function WidgetProxy(props) {
         .then(() => {
           loadWidget();
           
-          viteClientRef.current.on('vite:beforeUpdate', () => {
-            console.log('beforeUpdate');
-
+          viteClientRef.current.on('vite:afterUpdate', () => {
             loadWidget();
           });
         });
