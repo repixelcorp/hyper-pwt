@@ -4,14 +4,50 @@ export default defineConfig({
   lib: [
     {
       format: 'cjs',
-      bundle: true
+      bundle: true,
+      dts: true,
+      source: {
+        entry: {
+          cli: 'src/cli.ts'
+        }
+      },
+      output: {
+        filename: {
+          js: '[name].js'
+        }
+      }
+    },
+    {
+      format: 'esm',
+      bundle: true,
+      dts: true,
+      source: {
+        entry: {
+          index: 'src/index.ts'
+        }
+      },
+      output: {
+        filename: {
+          js: '[name].mjs'
+        }
+      }
+    },
+    {
+      format: 'cjs',
+      bundle: true,
+      dts: false,
+      source: {
+        entry: {
+          index: 'src/index.ts'
+        }
+      },
+      output: {
+        filename: {
+          js: '[name].cjs'
+        }
+      }
     }
   ],
-  source: {
-    entry: {
-      index: 'src/cli.ts'
-    }
-  },
   output: {
     minify: {
       js: true,
