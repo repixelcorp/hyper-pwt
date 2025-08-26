@@ -10,7 +10,7 @@
     "build": "rslib build",
     "watch": "rslib build --watch",
     "start": "pnpm build && node ./dist/cli.js",
-    "link": "pnpm build && npm link --force"
+    "package": "pnpm build && pnpm pack"
   },
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
