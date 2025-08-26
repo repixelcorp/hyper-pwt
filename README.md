@@ -1,6 +1,6 @@
 # hyper-pwt
 
-<img src="https://raw.githubusercontent.com/repixelcorp/hyper-pwt/develop/static/header.png" alt="hyper-pwt" width="100%" height="auto">
+<img src="https://raw.githubusercontent.com/repixelcorp/hyper-pwt/main/static/header.png" alt="hyper-pwt" width="100%" height="auto">
 
 A faster, more modern, superior alternative for [Mendix PWT](https://github.com/mendix/widgets-tools).
 
@@ -115,4 +115,5 @@ Please refer to the [LICENSE](./LICENSE).
 ## Disclaimers
 
 Neither Repixel Co., Ltd., nor the project maintainers or contributors, are responsible for any problems arising from the use of this software. The user is entirely responsible.
+
 
