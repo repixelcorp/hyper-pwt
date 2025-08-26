@@ -9,11 +9,21 @@
   "scripts": {
     "build": "rslib build",
     "watch": "rslib build --watch",
-    "start": "pnpm build && node ./dist/index.js",
+    "start": "pnpm build && node ./dist/cli.js",
     "link": "pnpm build && npm link --force"
   },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "bin": {
-    "hyper-pwt": "dist/index.js"
+    "hyper-pwt": "dist/cli.js"
   },
   "keywords": [
     "mendix",
@@ -27,7 +37,8 @@
   "devDependencies": {
     "@rslib/core": "0.12.2",
     "@types/node": "22.17.2",
-    "type-fest": "4.41.0"
+    "type-fest": "4.41.0",
+    "typescript": "^5.9.2"
   },
   "dependencies": {
     "@vitejs/plugin-react-swc": "4.0.1",
