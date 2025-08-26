@@ -1,26 +1,27 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { UserConfig, createServer } from 'vite';
+import { PluginOption } from 'vite';
 
-import { CLI_DIRECTORY, COLOR_ERROR, COLOR_GREEN, PROJECT_DIRECTORY } from "../../../constants";
+import { CLI_DIRECTORY, COLOR_ERROR, COLOR_GREEN, PROJECT_DIRECTORY, VITE_CONFIGURATION_FILENAME } from "../../../constants";
 import showMessage from "../../../utils/showMessage";
 import getViteWatchOutputDirectory from "../../../utils/getViteWatchOutputDirectory";
 import pathIsExists from "../../../utils/pathIsExists";
 import { getViteDefaultConfig } from '../../../configurations/vite';
 import getWidgetName from '../../../utils/getWidgetName';
-import { PluginOption } from 'vite';
+import getViteUserConfiguration from '../../../utils/getViteUserConfiguration';
 
 const startWebCommand = async () => {
   try {
     showMessage('Start widget server');
 
-    const customViteConfigPath = path.join(PROJECT_DIRECTORY, 'vite.config.ts');
+    const customViteConfigPath = path.join(PROJECT_DIRECTORY, VITE_CONFIGURATION_FILENAME);
     const viteConfigIsExists = await pathIsExists(customViteConfigPath);
     let resultViteConfig: UserConfig;
     const widgetName = await getWidgetName();
 
     if (viteConfigIsExists) {
-      const userConfig: UserConfig = await import(customViteConfigPath);
+      const userConfig = await getViteUserConfiguration(customViteConfigPath);
 
       resultViteConfig = await getViteDefaultConfig(false, userConfig);
     } else {

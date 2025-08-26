@@ -3,7 +3,7 @@ import path from 'path';
 import { InlineConfig, UserConfig, build as viteBuild } from 'vite';
 import { zip } from 'zip-a-folder';
 
-import { COLOR_ERROR, COLOR_GREEN, DIST_DIRECTORY_NAME, PROJECT_DIRECTORY, WEB_OUTPUT_DIRECTORY } from '../../../constants';
+import { COLOR_ERROR, COLOR_GREEN, DIST_DIRECTORY_NAME, PROJECT_DIRECTORY, VITE_CONFIGURATION_FILENAME, WEB_OUTPUT_DIRECTORY } from '../../../constants';
 import pathIsExists from '../../../utils/pathIsExists';
 import getWidgetVersion from '../../../utils/getWidgetVersion';
 import showMessage from '../../../utils/showMessage';
@@ -11,9 +11,10 @@ import { getEditorConfigDefaultConfig, getEditorPreviewDefaultConfig, getViteDef
 import getWidgetName from '../../../utils/getWidgetName';
 import getWidgetPackageJson from '../../../utils/getWidgetPackageJson';
 import getMendixWidgetDirectory from '../../../utils/getMendixWidgetDirectory';
+import getViteUserConfiguration from '../../../utils/getViteUserConfiguration';
 
 const buildWebCommand = async (isProduction: boolean = false) => {
-  try {
+  // try {
     showMessage('Remove previous builds');
 
     const distDir = path.join(PROJECT_DIRECTORY, DIST_DIRECTORY_NAME);
@@ -33,16 +34,16 @@ const buildWebCommand = async (isProduction: boolean = false) => {
     await fs.mkdir(outputDir);
     await fs.mkdir(WEB_OUTPUT_DIRECTORY, { recursive: true });
 
-    const customViteConfigPath = path.join(PROJECT_DIRECTORY, 'vite.config.ts');
+    const customViteConfigPath = path.join(PROJECT_DIRECTORY, VITE_CONFIGURATION_FILENAME);
     const viteConfigIsExists = await pathIsExists(customViteConfigPath);
     let resultViteConfig: UserConfig;
 
     if (viteConfigIsExists) {
-      const userConfig: UserConfig = await import(customViteConfigPath);
+      const userConfig = await getViteUserConfiguration(customViteConfigPath);
 
-      resultViteConfig = await getViteDefaultConfig(isProduction, userConfig);
+      resultViteConfig = await getViteDefaultConfig(false, userConfig);
     } else {
-      resultViteConfig = await getViteDefaultConfig(isProduction);
+      resultViteConfig = await getViteDefaultConfig(false);
     }
 
     const widgetName = await getWidgetName();
@@ -93,9 +94,9 @@ const buildWebCommand = async (isProduction: boolean = false) => {
     await fs.copyFile(mpkFileDestPath, mendixMpkFileDestPath);
 
     showMessage(`${COLOR_GREEN('Build complete.')}`);
-  } catch (error) {
-    showMessage(`${COLOR_ERROR('Build failed.')}\nError occurred: ${COLOR_ERROR((error as Error).message)}`);
-  }
+  // } catch (error) {
+    // showMessage(`${COLOR_ERROR('Build failed.')}\nError occurred: ${COLOR_ERROR((error as Error).stack)}`);
+  // }
 };
 
 export default buildWebCommand;

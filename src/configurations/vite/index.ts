@@ -5,6 +5,7 @@ import path from "path";
 import getWidgetName from "../../utils/getWidgetName";
 import { PROJECT_DIRECTORY, WEB_OUTPUT_DIRECTORY } from "../../constants";
 import getViteOutputDirectory from "../../utils/getViteOutputDirectory";
+import { PWTConfig } from "../..";
 
 export const getEditorConfigDefaultConfig = async (isProduction: boolean): Promise<UserConfig> => {
   const widgetName = await getWidgetName();
@@ -64,12 +65,12 @@ export const getEditorPreviewDefaultConfig = async (isProduction: boolean): Prom
   };
 };
 
-export const getViteDefaultConfig = async (isProduction: boolean, userCustomConfig?: UserConfig): Promise<UserConfig> => {
+export const getViteDefaultConfig = async (isProduction: boolean, userCustomConfig?: PWTConfig): Promise<UserConfig> => {
   const widgetName = await getWidgetName();
   const viteOutputDirectory = await getViteOutputDirectory();
 
   return {
-    plugins: [react()],
+    plugins: [react(userCustomConfig?.reactPluginOptions || undefined)],
     define: {
       'process.env': {},
       'process.env.NODE_ENV': isProduction ? '"production"' : '"development"'
