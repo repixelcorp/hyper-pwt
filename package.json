@@ -54,7 +54,8 @@
     "dist/**/*",
     "package.json",
     "LICENSE",
-    "src/configurations/hotReload/**/*"
+    "src/configurations/hotReload/**/*",
+    "custom_widget.xsd"
   ],
   "publishConfig": {
     "access": "public",
