@@ -11,7 +11,7 @@
     "watch": "rslib build --watch",
     "start": "pnpm build && node ./dist/cli.js",
     "package": "pnpm build && pnpm pack",
-    "postinstall": "node ./tools/copy-widget-schema.js"
+    "prepare": "node ./tools/copy-widget-schema.js"
   },
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
