@@ -14,10 +14,16 @@ if (!window.__vite_plugin_react_preamble_installed__) {
 
 import React from 'react';
 import * as ReactDOM from 'react-dom';
+import * as ReactDOMClient from 'react-dom/client';
+import * as ReactJSXRuntime from 'react/jsx-runtime';
+import * as ReactJSXDevRuntime from 'react/jsx-dev-runtime';
 
 if (!window.React) {
   window.React = React;
-  window.ReactDOM = ReactDOM;
+  window.ReactDOM = ReactDOM.default;
+  window.ReactDOMClient = ReactDOMClient.default;
+  window.ReactJSXRuntime = ReactJSXRuntime.default;
+  window.ReactJSXDevRuntime = ReactJSXDevRuntime.default;
 }
 
 const DEV_SERVER_URL = '{{ DEV_SERVER_URL }}';
