@@ -12,9 +12,28 @@ import getWidgetName from '../../../utils/getWidgetName';
 import getWidgetPackageJson from '../../../utils/getWidgetPackageJson';
 import getMendixWidgetDirectory from '../../../utils/getMendixWidgetDirectory';
 import getViteUserConfiguration from '../../../utils/getViteUserConfiguration';
+import { generateTypesFromFile } from '../../../type-generator';
 
 const buildWebCommand = async (isProduction: boolean = false) => {
-  // try {
+  try {
+    showMessage('Generate types');
+
+    const widgetName = await getWidgetName();
+    const originWidgetXmlPath = path.join(PROJECT_DIRECTORY, `src/${widgetName}.xml`);
+    const typingsPath = path.join(PROJECT_DIRECTORY, 'typings');
+    const typingsDirExists = await pathIsExists(typingsPath);
+
+    if (typingsDirExists) {
+      await fs.rm(typingsPath, { recursive: true, force: true });
+    }
+
+    await fs.mkdir(typingsPath);
+
+    const newTypingsFilePath = path.join(typingsPath, `${widgetName}Props.d.ts`);
+    const typingContents = await generateTypesFromFile(originWidgetXmlPath, 'web');
+
+    await fs.writeFile(newTypingsFilePath, typingContents);
+
     showMessage('Remove previous builds');
 
     const distDir = path.join(PROJECT_DIRECTORY, DIST_DIRECTORY_NAME);
@@ -46,10 +65,8 @@ const buildWebCommand = async (isProduction: boolean = false) => {
       resultViteConfig = await getViteDefaultConfig(false);
     }
 
-    const widgetName = await getWidgetName();
     const originPackageXmlPath = path.join(PROJECT_DIRECTORY, 'src/package.xml');
     const destPackageXmlPath = path.join(WEB_OUTPUT_DIRECTORY, 'package.xml');
-    const originWidgetXmlPath = path.join(PROJECT_DIRECTORY, `src/${widgetName}.xml`);
     const destWidgetXmlPath = path.join(WEB_OUTPUT_DIRECTORY, `${widgetName}.xml`);
 
     await fs.copyFile(originPackageXmlPath, destPackageXmlPath);
@@ -94,9 +111,9 @@ const buildWebCommand = async (isProduction: boolean = false) => {
     await fs.copyFile(mpkFileDestPath, mendixMpkFileDestPath);
 
     showMessage(`${COLOR_GREEN('Build complete.')}`);
-  // } catch (error) {
-    // showMessage(`${COLOR_ERROR('Build failed.')}\nError occurred: ${COLOR_ERROR((error as Error).stack)}`);
-  // }
+  } catch (error) {
+    showMessage(`${COLOR_ERROR('Build failed.')}\nError occurred: ${COLOR_ERROR((error as Error).stack)}`);
+  }
 };
 
 export default buildWebCommand;

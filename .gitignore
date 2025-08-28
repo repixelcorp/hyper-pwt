@@ -223,3 +223,6 @@ $RECYCLE.BIN/
 /tmp
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,macos,node,visualstudiocode
+
+# Mendix Widget schema file
+custom_widget.xsd

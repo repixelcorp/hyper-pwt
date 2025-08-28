@@ -10,10 +10,31 @@ import pathIsExists from "../../../utils/pathIsExists";
 import { getViteDefaultConfig } from '../../../configurations/vite';
 import getWidgetName from '../../../utils/getWidgetName';
 import getViteUserConfiguration from '../../../utils/getViteUserConfiguration';
+import { generateTypesFromFile } from '../../../type-generator';
+
+const generateTyping = async () => {
+  const widgetName = await getWidgetName();
+  const originWidgetXmlPath = path.join(PROJECT_DIRECTORY, `src/${widgetName}.xml`);
+  const typingsPath = path.join(PROJECT_DIRECTORY, 'typings');
+  const typingsDirExists = await pathIsExists(typingsPath);
+
+  if (typingsDirExists) {
+    await fs.rm(typingsPath, { recursive: true, force: true });
+  }
+
+  await fs.mkdir(typingsPath);
+
+  const newTypingsFilePath = path.join(typingsPath, `${widgetName}Props.d.ts`);
+  const typingContents = await generateTypesFromFile(originWidgetXmlPath, 'web');
+
+  await fs.writeFile(newTypingsFilePath, typingContents);
+};
 
 const startWebCommand = async () => {
   try {
     showMessage('Start widget server');
+
+    await generateTyping();
 
     const customViteConfigPath = path.join(PROJECT_DIRECTORY, VITE_CONFIGURATION_FILENAME);
     const viteConfigIsExists = await pathIsExists(customViteConfigPath);
@@ -362,66 +383,16 @@ const startWebCommand = async () => {
             }
           }
         },
-        // {
-        //   name: 'mendix-hotreload-react',
-        //   enforce: 'pre',
-        //   transform(code, id) {
-        //     if (!id.includes('node_modules') && /\.(tsx?|jsx?)$/.test(id)) {
-        //       let transformedCode = code;
-              
-        //       transformedCode = transformedCode.replace(
-        //         /import\s+(\w+)\s+from\s+['"]react['"]/g,
-        //         'const $1 = window.React'
-        //       );
-              
-        //       transformedCode = transformedCode.replace(
-        //         /import\s+\*\s+as\s+(\w+)\s+from\s+['"]react['"]/g,
-        //         'const $1 = window.React'
-        //       );
-              
-        //       transformedCode = transformedCode.replace(
-        //         /import\s+{([^}]+)}\s+from\s+['"]react['"]/g,
-        //         (match, imports) => {
-        //           const cleanImports = imports.replace(/\s+/g, ' ').trim();
-        //           return `const { ${cleanImports} } = window.React`;
-        //         }
-        //       );
-              
-        //       transformedCode = transformedCode.replace(
-        //         /import\s+(\w+)\s*,\s*{([^}]+)}\s+from\s+['"]react['"]/g,
-        //         (match, defaultImport, namedImports) => {
-        //           const cleanImports = namedImports.replace(/\s+/g, ' ').trim();
-        //           return `const ${defaultImport} = window.React;\nconst { ${cleanImports} } = window.React`;
-        //         }
-        //       );
-              
-        //       transformedCode = transformedCode.replace(
-        //         /import\s+(\w+)\s+from\s+['"]react-dom['"]/g,
-        //         'const $1 = window.ReactDOM'
-        //       );
-              
-        //       transformedCode = transformedCode.replace(
-        //         /import\s+{([^}]+)}\s+from\s+['"]react-dom['"]/g,
-        //         'const { $1 } = window.ReactDOM'
-        //       );
-              
-        //       transformedCode = transformedCode.replace(
-        //         /import\s+{([^}]+)}\s+from\s+['"]react-dom\/client['"]/g,
-        //         'const { $1 } = window.ReactDOM'
-        //       );
-              
-        //       transformedCode = transformedCode.replace(
-        //         /import\s+type\s+{([^}]+)}\s+from\s+['"]react['"]/g,
-        //         '// Type import removed: $1'
-        //       );
-              
-        //       return {
-        //         code: transformedCode,
-        //         map: null
-        //       };
-        //     }
-        //   },
-        // },
+        {
+          name: 'mendix-xml-watch-plugin',
+          configureServer(server) {
+            server.watcher.on('change', (file) => {
+              if (file.endsWith('xml')) {
+                generateTyping();
+              }
+            });
+          }
+        }
       ]
     });
 
