@@ -12,7 +12,6 @@ import getWidgetName from '../../../utils/getWidgetName';
 import getViteUserConfiguration from '../../../utils/getViteUserConfiguration';
 import { generateTypesFromFile } from '../../../type-generator';
 import { mendixHotreloadReactPlugin } from '../../../configurations/vite/plugins/mendix-hotreload-react-plugin';
-import { mendixHotreloadReactEsbuildPlugin } from '../../../configurations/vite/plugins/mendix-hotreload-react-esbuild-plugin';
 import { mendixPatchViteClientPlugin } from '../../../configurations/vite/plugins/mendix-patch-vite-client-plugin';
 
 const generateTyping = async () => {
@@ -70,13 +69,6 @@ const startWebCommand = async () => {
           usePolling: true,
           interval: 100
         },
-      },
-      optimizeDeps: {
-        esbuildOptions: {
-          plugins: [
-            mendixHotreloadReactEsbuildPlugin(),
-          ],
-        }
       },
       plugins: [
         ...resultViteConfig.plugins as PluginOption[],
