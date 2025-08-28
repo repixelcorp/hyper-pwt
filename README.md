@@ -4,9 +4,9 @@
 
 A faster, more modern, superior alternative for [Mendix PWT](https://github.com/mendix/widgets-tools).
 
-## How to use?
+## How to migration to hyper-pwt?
 
-It's simple.
+Bascially, hyper-pwt is a drop-in replacement for Mendix PWT.
 
 First, install hyper-pwt from npm.
 
@@ -28,6 +28,12 @@ Second, replace pluggable-widgets-tools to hyper-pwt in widget's package.json.
   }
 }
 ```
+
+### I use custom rollup configuration.
+
+First, proceed with the basic replacement process.
+
+If the widget does not function properly after installing hyper-pwt, you can customize your Vite configuration by referring to the [“Custom build configurations”](#custom-build-configurations) section.
 
 ## Custom build configurations
 
