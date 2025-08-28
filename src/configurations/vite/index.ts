@@ -1,5 +1,5 @@
 import { UserConfig } from "vite";
-import react from '@vitejs/plugin-react-swc';
+import react from '@vitejs/plugin-react';
 import path from "path";
 
 import getWidgetName from "../../utils/getWidgetName";
@@ -14,7 +14,7 @@ export const getEditorConfigDefaultConfig = async (isProduction: boolean): Promi
     plugins: [],
     build: {
       outDir: WEB_OUTPUT_DIRECTORY,
-      minify: isProduction ? 'esbuild' : false,
+      minify: isProduction ? true : false,
       emptyOutDir: false,
       sourcemap: isProduction ? false : true,
       lib: {
@@ -33,14 +33,16 @@ export const getEditorPreviewDefaultConfig = async (isProduction: boolean): Prom
   const widgetName = await getWidgetName();
 
   return {
-    plugins: [react()],
+    plugins: [react({
+      jsxRuntime: 'classic'
+    })],
     define: {
       'process.env': {},
       'process.env.NODE_ENV': '"production"'
     },
     build: {
       outDir: WEB_OUTPUT_DIRECTORY,
-      minify: isProduction ? 'esbuild' : false,
+      minify: isProduction ? true : false,
       emptyOutDir: false,
       sourcemap: isProduction ? false : true,
       lib: {
@@ -51,8 +53,8 @@ export const getEditorPreviewDefaultConfig = async (isProduction: boolean): Prom
         },
         formats: ['umd']
       },
-      rollupOptions: {
-        external: ['react', 'react-dom', 'react-dom/client'],
+      rolldownOptions: {
+        external: ['react', 'react-dom', 'react-dom/client', 'react/jsx-runtime', 'react/jsx-dev-runtime'],
         output: {
           globals: {
             react: 'React',
@@ -70,15 +72,20 @@ export const getViteDefaultConfig = async (isProduction: boolean, userCustomConf
   const viteOutputDirectory = await getViteOutputDirectory();
 
   return {
-    plugins: [react(userCustomConfig?.reactPluginOptions || undefined)],
+    plugins: [
+      react({
+        ...userCustomConfig?.reactPluginOptions || {},
+        jsxRuntime: 'classic'
+      })
+    ],
     define: {
       'process.env': {},
       'process.env.NODE_ENV': isProduction ? '"production"' : '"development"'
     },
     build: {
       outDir: viteOutputDirectory,
-      minify: isProduction ? 'esbuild' : false,
-      cssMinify: isProduction ? 'esbuild' : false,
+      minify: isProduction ? true : false,
+      cssMinify: isProduction ? true : false,
       sourcemap: isProduction ? false : true,
       lib: {
         formats: isProduction ? ['umd'] : ['es', 'umd'],
@@ -97,8 +104,8 @@ export const getViteDefaultConfig = async (isProduction: boolean, userCustomConf
         },
         cssFileName: widgetName
       },
-      rollupOptions: {
-        external: ['react', 'react-dom', 'react-dom/client'],
+      rolldownOptions: {
+        external: ['react', 'react-dom', 'react-dom/client', 'react/jsx-runtime', 'react/jsx-dev-runtime'],
         output: {
           globals: {
             react: 'React',
