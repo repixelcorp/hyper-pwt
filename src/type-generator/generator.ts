@@ -63,7 +63,7 @@ export function generateTypeDefinition(widget: WidgetDefinition, target: Generat
 }
 
 function generateInterfaceName(widgetName: string): string {
-  return `${pascalCase(widgetName)}Props`;
+  return `${pascalCase(widgetName)}ContainerProps`;
 }
 
 export function extractAllProperties(properties: PropertyGroup[] | Property[]): (Property | SystemProperty)[] {
