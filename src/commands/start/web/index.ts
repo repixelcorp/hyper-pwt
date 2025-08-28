@@ -13,6 +13,7 @@ import getViteUserConfiguration from '../../../utils/getViteUserConfiguration';
 import { generateTypesFromFile } from '../../../type-generator';
 import { mendixHotreloadReactPlugin } from '../../../configurations/vite/plugins/mendix-hotreload-react-plugin';
 import { mendixHotreloadReactEsbuildPlugin } from '../../../configurations/vite/plugins/mendix-hotreload-react-esbuild-plugin';
+import { mendixPatchViteClientPlugin } from '../../../configurations/vite/plugins/mendix-patch-vite-client-plugin';
 
 const generateTyping = async () => {
   const widgetName = await getWidgetName();
@@ -80,6 +81,7 @@ const startWebCommand = async () => {
       plugins: [
         ...resultViteConfig.plugins as PluginOption[],
         mendixHotreloadReactPlugin(),
+        mendixPatchViteClientPlugin(),
         {
           name: 'mendix-xml-watch-plugin',
           configureServer(server) {
