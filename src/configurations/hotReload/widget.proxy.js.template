@@ -1,0 +1,86 @@
+if (!window.$RefreshReg$) {
+  window.$RefreshReg$ = () => {};
+  window.$RefreshSig$ = () => (type) => type;
+  window.$RefreshRuntime$ = {
+    register: () => {},
+    createSignatureFunctionForTransform: () => () => {},
+    performed: false
+  };
+}
+
+if (!window.__vite_plugin_react_preamble_installed__) {
+  window.__vite_plugin_react_preamble_installed__ = true;
+}
+
+import React from 'react';
+import * as ReactDOM from 'react-dom';
+import * as ReactDOMClient from 'react-dom/client';
+import * as ReactJSXRuntime from 'react/jsx-runtime';
+import * as ReactJSXDevRuntime from 'react/jsx-dev-runtime';
+
+if (!window.React) {
+  window.React = React;
+  window.ReactDOM = ReactDOM.default;
+  window.ReactDOMClient = ReactDOMClient.default;
+  window.ReactJSXRuntime = ReactJSXRuntime.default;
+  window.ReactJSXDevRuntime = ReactJSXDevRuntime.default;
+}
+
+const DEV_SERVER_URL = '{{ DEV_SERVER_URL }}';
+const WIDGET_NAME = '{{ WIDGET_NAME }}';
+
+function WidgetProxy(props) {
+  const [WidgetComponent, setWidgetComponent] = React.useState(null);
+  const [error, setError] = React.useState(null);
+  const [version, setVersion] = React.useState(0);
+  const viteClientRef = React.useRef(null);
+  const [viteClientInitialized, setViteClientInitialized] = React.useState(false);
+
+  const loadWidget = async () => {
+    try {
+      const module = await import(`${DEV_SERVER_URL}src/${WIDGET_NAME}.tsx?t=${Date.now()}`);
+
+      setWidgetComponent(() => module.default || module[WIDGET_NAME]);
+      setError(null);
+    } catch (err) {
+      console.error('Widget loading failed:', err);
+    }
+  };
+
+  const setupViteClient = async () => {
+    await fetch(`${DEV_SERVER_URL}@vite/client`);
+
+    const clientModule = await import(`${DEV_SERVER_URL}@vite/client.mjs?t=${Date.now()}`);
+
+    if (clientModule.createHotContext) {
+      viteClientRef.current = clientModule.createHotContext(`${DEV_SERVER_URL}src/${WIDGET_NAME}.tsx?t=${Date.now()}`);
+    }
+
+    setViteClientInitialized(true);
+  };
+
+  React.useEffect(() => {
+    setupViteClient();
+  }, []);
+
+  React.useEffect(() => {
+    if (viteClientInitialized) {
+      fetch(`${DEV_SERVER_URL}src/${WIDGET_NAME}.tsx`)
+        .then(() => {
+          loadWidget();
+          
+          viteClientRef.current.on('vite:afterUpdate', () => {
+            loadWidget();
+          });
+        });
+    }
+  }, [viteClientInitialized]);
+
+  if (!WidgetComponent) {
+    return React.createElement('div', null, 'Loading hot reload widget...');
+  }
+
+  return React.createElement(WidgetComponent, props);
+}
+
+export default WidgetProxy;

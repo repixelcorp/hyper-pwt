@@ -1,5 +1,7 @@
 # hyper-pwt
 
+<img src="https://raw.githubusercontent.com/repixelcorp/hyper-pwt/main/static/header.png" alt="hyper-pwt" width="100%" height="auto">
+
 A faster, more modern, superior alternative for [Mendix PWT](https://github.com/mendix/widgets-tools).
 
 ## How to use?
@@ -28,6 +30,49 @@ Second, replace pluggable-widgets-tools to hyper-pwt in widget's package.json.
 ```
 
 ## Custom build configurations
+
+### Web
+
+Create vite.config.mjs on your pwt root directory.
+
+```javascript
+import { definePWTConfig } from '@repixelcorp/hyper-pwt';
+
+export default definePWTConfig(() => {
+    return {
+      // Your custom configuration in here.
+    };
+});
+```
+
+hyper-pwt uses the [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react-swc) plugin. The settings for this plugin can be changed as follows.
+
+```javascript
+import { definePWTConfig } from '@repixelcorp/hyper-pwt';
+
+export default definePWTConfig(() => {
+    return {
+        reactPluginOptions: {
+            tsDecorators: true,
+        }
+    };
+});
+```
+
+definePWTConfig also supports asynchronous mode. It can be used as follows.
+
+```javascript
+import { definePWTConfig } from '@repixelcorp/hyper-pwt';
+
+export default definePWTConfig(async () => {
+    const promise = await somethingPromise();
+
+    return {
+    };
+});
+```
+
+### Native
 
 TODO
 
@@ -70,3 +115,5 @@ Please refer to the [LICENSE](./LICENSE).
 ## Disclaimers
 
 Neither Repixel Co., Ltd., nor the project maintainers or contributors, are responsible for any problems arising from the use of this software. The user is entirely responsible.
+
+
