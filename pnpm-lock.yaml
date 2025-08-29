@@ -37,7 +37,7 @@ importers:
         specifier: 22.17.2
         version: 22.17.2
       esbuild:
-        specifier: ^0.25.9
+        specifier: 0.25.9
         version: 0.25.9
       type-fest:
         specifier: 4.41.0
