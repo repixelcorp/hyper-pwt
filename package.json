@@ -33,7 +33,7 @@
     "mendix-pwt",
     "pluggable-widgets-tools"
   ],
-  "author": "Repixel Co, Ltd.",
+  "author": "Repixel Co., Ltd.",
   "license": "MIT",
   "packageManager": "pnpm@10.15.0",
   "devDependencies": {
