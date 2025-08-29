@@ -29,6 +29,15 @@ Second, replace pluggable-widgets-tools to hyper-pwt in widget's package.json.
 }
 ```
 
+Third, open tsconfig.json and change extends to hyper-pwt like below.
+
+```json
+{
+  "extends": "@repixelcorp/hyper-pwt/src/configurations/typescript/tsconfig.base",
+  "include": ["./src", "./typings"]
+}
+```
+
 ### I use custom rollup configuration.
 
 First, proceed with the basic replacement process.
@@ -51,7 +60,7 @@ export default definePWTConfig(() => {
 });
 ```
 
-hyper-pwt uses the [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react-swc) plugin. The settings for this plugin can be changed as follows.
+hyper-pwt uses the [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react) plugin. The settings for this plugin can be changed as follows.
 
 ```javascript
 import { definePWTConfig } from '@repixelcorp/hyper-pwt';
@@ -59,7 +68,7 @@ import { definePWTConfig } from '@repixelcorp/hyper-pwt';
 export default definePWTConfig(() => {
     return {
         reactPluginOptions: {
-            tsDecorators: true,
+          jsxRuntime: 'classic'
         }
     };
 });

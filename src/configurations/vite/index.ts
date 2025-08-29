@@ -1,6 +1,7 @@
 import { UserConfig } from "vite";
 import react from '@vitejs/plugin-react';
 import path from "path";
+import typescript from "rollup-plugin-typescript2";
 
 import getWidgetName from "../../utils/getWidgetName";
 import { PROJECT_DIRECTORY, WEB_OUTPUT_DIRECTORY } from "../../constants";
@@ -33,9 +34,11 @@ export const getEditorPreviewDefaultConfig = async (isProduction: boolean): Prom
   const widgetName = await getWidgetName();
 
   return {
-    plugins: [react({
-      jsxRuntime: 'classic'
-    })],
+    plugins: [
+      react({
+        jsxRuntime: 'classic'
+      })
+    ],
     define: {
       'process.env': {},
       'process.env.NODE_ENV': '"production"'
@@ -54,7 +57,14 @@ export const getEditorPreviewDefaultConfig = async (isProduction: boolean): Prom
         formats: ['umd']
       },
       rolldownOptions: {
-        external: ['react', 'react-dom', 'react-dom/client', 'react/jsx-runtime', 'react/jsx-dev-runtime'],
+        external: [
+          'react',
+          'react-dom',
+          'react-dom/client',
+          'react/jsx-runtime',
+          'react/jsx-dev-runtime',
+          /^mendix($|\/)/
+        ],
         output: {
           globals: {
             react: 'React',
@@ -105,7 +115,30 @@ export const getViteDefaultConfig = async (isProduction: boolean, userCustomConf
         cssFileName: widgetName
       },
       rolldownOptions: {
-        external: ['react', 'react-dom', 'react-dom/client', 'react/jsx-runtime', 'react/jsx-dev-runtime'],
+        plugins: [
+          typescript({
+            tsconfig: path.join(PROJECT_DIRECTORY, 'tsconfig.json'),
+            tsconfigOverride: {
+              compilerOptions: {
+                jsx: 'preserve',
+                preserveConstEnums: false,
+                isolatedModules: false,
+                declaration: false
+              }
+            },
+            include: ["src/**/*.ts", "src/**/*.tsx"],
+            exclude: ["node_modules/**", "src/**/*.d.ts"],
+            check: false,
+          })
+        ],
+        external: [
+          'react',
+          'react-dom',
+          'react-dom/client',
+          'react/jsx-runtime',
+          'react/jsx-dev-runtime',
+          /^mendix($|\/)/
+        ],
         output: {
           globals: {
             react: 'React',
