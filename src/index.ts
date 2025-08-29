@@ -1,5 +1,5 @@
 import type { UserConfig } from "vite";
-import reactPlugin from "@vitejs/plugin-react";
+import reactPlugin from "@vitejs/plugin-react-swc";
 
 export type PWTConfig = UserConfig & {
   reactPluginOptions?: Parameters<typeof reactPlugin>[0];

@@ -1,5 +1,5 @@
 import { UserConfig } from "vite";
-import react from '@vitejs/plugin-react';
+import react from '@vitejs/plugin-react-swc';
 import path from "path";
 
 import getWidgetName from "../../utils/getWidgetName";
@@ -33,11 +33,7 @@ export const getEditorPreviewDefaultConfig = async (isProduction: boolean): Prom
   const widgetName = await getWidgetName();
 
   return {
-    plugins: [
-      react({
-        jsxRuntime: 'classic'
-      }),
-    ],
+    plugins: [react()],
     define: {
       'process.env': {},
       'process.env.NODE_ENV': '"production"'
@@ -55,7 +51,7 @@ export const getEditorPreviewDefaultConfig = async (isProduction: boolean): Prom
         },
         formats: ['umd']
       },
-      rolldownOptions: {
+      rollupOptions: {
         external: [
           'react',
           'react-dom',
@@ -81,12 +77,7 @@ export const getViteDefaultConfig = async (isProduction: boolean, userCustomConf
   const viteOutputDirectory = await getViteOutputDirectory();
 
   return {
-    plugins: [
-      react({
-        ...userCustomConfig?.reactPluginOptions || {},
-        jsxRuntime: 'classic'
-      })
-    ],
+    plugins: [react(userCustomConfig?.reactPluginOptions || undefined)],
     define: {
       'process.env': {},
       'process.env.NODE_ENV': isProduction ? '"production"' : '"development"'
@@ -113,7 +104,7 @@ export const getViteDefaultConfig = async (isProduction: boolean, userCustomConf
         },
         cssFileName: widgetName
       },
-      rolldownOptions: {
+      rollupOptions: {
         external: [
           'react',
           'react-dom',

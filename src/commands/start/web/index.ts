@@ -13,6 +13,7 @@ import getViteUserConfiguration from '../../../utils/getViteUserConfiguration';
 import { generateTypesFromFile } from '../../../type-generator';
 import { mendixHotreloadReactPlugin } from '../../../configurations/vite/plugins/mendix-hotreload-react-plugin';
 import { mendixPatchViteClientPlugin } from '../../../configurations/vite/plugins/mendix-patch-vite-client-plugin';
+import { mendixHotreloadReactEsbuildPlugin } from '../../../configurations/vite/plugins/mendix-hotreload-react-esbuild-plugin';
 
 const generateTyping = async () => {
   const widgetName = await getWidgetName();
@@ -68,6 +69,13 @@ const startWebCommand = async () => {
         watch: {
           usePolling: true,
           interval: 100
+        },
+      },
+      optimizeDeps: {
+        esbuildOptions: {
+          plugins: [
+            mendixHotreloadReactEsbuildPlugin()
+          ],
         },
       },
       plugins: [
