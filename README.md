@@ -60,7 +60,7 @@ export default definePWTConfig(() => {
 });
 ```
 
-hyper-pwt uses the [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react-swc) plugin. The settings for this plugin can be changed as follows.
+hyper-pwt uses the [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react) plugin. The settings for this plugin can be changed as follows.
 
 ```javascript
 import { definePWTConfig } from '@repixelcorp/hyper-pwt';
@@ -68,7 +68,7 @@ import { definePWTConfig } from '@repixelcorp/hyper-pwt';
 export default definePWTConfig(() => {
     return {
         reactPluginOptions: {
-          tsDecorators: true,
+          jsxRuntime: 'classic'
         }
     };
 });

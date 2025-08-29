@@ -1,5 +1,5 @@
 import { UserConfig } from "vite";
-import react from '@vitejs/plugin-react-swc';
+import react from '@vitejs/plugin-react';
 import path from "path";
 import typescript from "rollup-plugin-typescript2";
 
@@ -34,12 +34,15 @@ export const getEditorPreviewDefaultConfig = async (isProduction: boolean): Prom
   const widgetName = await getWidgetName();
 
   return {
-    plugins: [react()],
+    plugins: [
+      react({
+        jsxRuntime: 'classic'
+      })
+    ],
     define: {
       'process.env': {},
       'process.env.NODE_ENV': '"production"'
     },
-    esbuild: false,
     build: {
       outDir: WEB_OUTPUT_DIRECTORY,
       minify: isProduction ? true : false,
@@ -53,7 +56,7 @@ export const getEditorPreviewDefaultConfig = async (isProduction: boolean): Prom
         },
         formats: ['umd']
       },
-      rollupOptions: {
+      rolldownOptions: {
         external: [
           'react',
           'react-dom',
@@ -79,12 +82,16 @@ export const getViteDefaultConfig = async (isProduction: boolean, userCustomConf
   const viteOutputDirectory = await getViteOutputDirectory();
 
   return {
-    plugins: [react(userCustomConfig?.reactPluginOptions || undefined)],
+    plugins: [
+      react({
+        ...userCustomConfig?.reactPluginOptions || {},
+        jsxRuntime: 'classic'
+      })
+    ],
     define: {
       'process.env': {},
       'process.env.NODE_ENV': isProduction ? '"production"' : '"development"'
     },
-    esbuild: false,
     build: {
       outDir: viteOutputDirectory,
       minify: isProduction ? true : false,
@@ -107,7 +114,7 @@ export const getViteDefaultConfig = async (isProduction: boolean, userCustomConf
         },
         cssFileName: widgetName
       },
-      rollupOptions: {
+      rolldownOptions: {
         plugins: [
           typescript({
             tsconfig: path.join(PROJECT_DIRECTORY, 'tsconfig.json'),
