@@ -85,12 +85,14 @@ const buildWebCommand = async (isProduction: boolean = false) => {
       {
         ...editorConfigViteConfig,
         configFile: false,
-        root: PROJECT_DIRECTORY
+        root: PROJECT_DIRECTORY,
+        logLevel: 'silent'
       },
       {
         ...editorPreviewViteConfig,
         configFile: false,
-        root: PROJECT_DIRECTORY
+        root: PROJECT_DIRECTORY,
+        logLevel: 'silent'
       }
     ];
 
