@@ -21,7 +21,8 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs",
       "types": "./dist/index.d.ts"
-    }
+    },
+    "./src/configurations/typescript/tsconfig.base": "./src/configurations/typescript/tsconfig.base.json"
   },
   "bin": {
     "hyper-pwt": "dist/cli.js"
@@ -55,6 +56,7 @@
     "package.json",
     "LICENSE",
     "src/configurations/hotReload/**/*",
+    "src/configurations/typescript/**/*",
     "custom_widget.xsd"
   ],
   "publishConfig": {

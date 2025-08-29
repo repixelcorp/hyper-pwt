@@ -33,9 +33,11 @@ export const getEditorPreviewDefaultConfig = async (isProduction: boolean): Prom
   const widgetName = await getWidgetName();
 
   return {
-    plugins: [react({
-      jsxRuntime: 'classic'
-    })],
+    plugins: [
+      react({
+        jsxRuntime: 'classic'
+      }),
+    ],
     define: {
       'process.env': {},
       'process.env.NODE_ENV': '"production"'
@@ -54,7 +56,14 @@ export const getEditorPreviewDefaultConfig = async (isProduction: boolean): Prom
         formats: ['umd']
       },
       rolldownOptions: {
-        external: ['react', 'react-dom', 'react-dom/client', 'react/jsx-runtime', 'react/jsx-dev-runtime'],
+        external: [
+          'react',
+          'react-dom',
+          'react-dom/client',
+          'react/jsx-runtime',
+          'react/jsx-dev-runtime',
+          /^mendix($|\/)/
+        ],
         output: {
           globals: {
             react: 'React',
@@ -105,7 +114,14 @@ export const getViteDefaultConfig = async (isProduction: boolean, userCustomConf
         cssFileName: widgetName
       },
       rolldownOptions: {
-        external: ['react', 'react-dom', 'react-dom/client', 'react/jsx-runtime', 'react/jsx-dev-runtime'],
+        external: [
+          'react',
+          'react-dom',
+          'react-dom/client',
+          'react/jsx-runtime',
+          'react/jsx-dev-runtime',
+          /^mendix($|\/)/
+        ],
         output: {
           globals: {
             react: 'React',
