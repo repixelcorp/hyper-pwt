@@ -1,6 +1,7 @@
 import { UserConfig } from "vite";
 import react from '@vitejs/plugin-react-swc';
 import path from "path";
+import typescript from "rollup-plugin-typescript2";
 
 import getWidgetName from "../../utils/getWidgetName";
 import { PROJECT_DIRECTORY, WEB_OUTPUT_DIRECTORY } from "../../constants";
@@ -38,6 +39,7 @@ export const getEditorPreviewDefaultConfig = async (isProduction: boolean): Prom
       'process.env': {},
       'process.env.NODE_ENV': '"production"'
     },
+    esbuild: false,
     build: {
       outDir: WEB_OUTPUT_DIRECTORY,
       minify: isProduction ? true : false,
@@ -82,6 +84,7 @@ export const getViteDefaultConfig = async (isProduction: boolean, userCustomConf
       'process.env': {},
       'process.env.NODE_ENV': isProduction ? '"production"' : '"development"'
     },
+    esbuild: false,
     build: {
       outDir: viteOutputDirectory,
       minify: isProduction ? true : false,
@@ -105,6 +108,22 @@ export const getViteDefaultConfig = async (isProduction: boolean, userCustomConf
         cssFileName: widgetName
       },
       rollupOptions: {
+        plugins: [
+          typescript({
+            tsconfig: path.join(PROJECT_DIRECTORY, 'tsconfig.json'),
+            tsconfigOverride: {
+              compilerOptions: {
+                jsx: 'preserve',
+                preserveConstEnums: false,
+                isolatedModules: false,
+                declaration: false
+              }
+            },
+            include: ["src/**/*.ts", "src/**/*.tsx"],
+            exclude: ["node_modules/**", "src/**/*.d.ts"],
+            check: false,
+          })
+        ],
         external: [
           'react',
           'react-dom',

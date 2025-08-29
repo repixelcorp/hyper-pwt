@@ -20,6 +20,8 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "useUnknownInCatchVariables": false,
-    "exactOptionalPropertyTypes": false
+    "exactOptionalPropertyTypes": false,
+    "preserveConstEnums": false,
+    "isolatedModules": false
   }
 }
