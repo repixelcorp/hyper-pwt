@@ -29,6 +29,15 @@ Second, replace pluggable-widgets-tools to hyper-pwt in widget's package.json.
 }
 ```
 
+Third, open tsconfig.json and change extends to hyper-pwt like below.
+
+```json
+{
+  "extends": "@repixelcorp/hyper-pwt/src/configurations/typescript/tsconfig.base",
+  "include": ["./src", "./typings"]
+}
+```
+
 ### I use custom rollup configuration.
 
 First, proceed with the basic replacement process.
