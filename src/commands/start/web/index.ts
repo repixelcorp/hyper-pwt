@@ -13,6 +13,7 @@ import getViteUserConfiguration from '../../../utils/getViteUserConfiguration';
 import { generateTypesFromFile } from '../../../type-generator';
 import { mendixHotreloadReactPlugin } from '../../../configurations/vite/plugins/mendix-hotreload-react-plugin';
 import { mendixPatchViteClientPlugin } from '../../../configurations/vite/plugins/mendix-patch-vite-client-plugin';
+import typescript from 'rollup-plugin-typescript2';
 
 const generateTyping = async () => {
   const widgetName = await getWidgetName();
@@ -71,6 +72,20 @@ const startWebCommand = async () => {
         },
       },
       plugins: [
+        typescript({
+          tsconfig: path.join(PROJECT_DIRECTORY, 'tsconfig.json'),
+          tsconfigOverride: {
+            compilerOptions: {
+              jsx: 'preserve',
+              preserveConstEnums: false,
+              isolatedModules: false,
+              declaration: false
+            }
+          },
+          include: ["src/**/*.ts", "src/**/*.tsx"],
+          exclude: ["node_modules/**", "src/**/*.d.ts"],
+          check: false,
+        }),
         ...resultViteConfig.plugins as PluginOption[],
         mendixHotreloadReactPlugin(),
         mendixPatchViteClientPlugin(),
@@ -84,7 +99,7 @@ const startWebCommand = async () => {
             });
           }
         },
-      ]
+      ],
     });
 
     await viteServer.listen();
