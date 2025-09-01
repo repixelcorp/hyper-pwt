@@ -22,9 +22,10 @@ export function mapAttributeTypeToTS(attributeType: AttributeType): string {
     case 'Integer':
     case 'Long':
     case 'AutoNumber':
-    case 'Float':
     case 'Currency':
     case 'Decimal':
+      return 'Big';
+    case 'Float':
       return 'number';
 
     case 'DateTime':
@@ -45,8 +46,11 @@ export function mapReturnTypeToTS(returnType: string): string {
     case 'Boolean':
       return 'boolean';
     case 'Integer':
-    case 'Float':
+    case 'Long':
+    case 'AutoNumber':
     case 'Decimal':
+      return 'Big';
+    case 'Float':
       return 'number';
     case 'DateTime':
       return 'Date | string';

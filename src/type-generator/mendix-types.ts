@@ -180,7 +180,11 @@ export function mapPropertyToMendixType(property: Property, platform: GenerateTa
 
 function mapAttributeToMendixType(property: Property, imports: Set<string>): string {
   const baseType = getAttributeBaseType(property.attributeTypes || []);
-  
+
+  if (baseType.includes('Big')) {
+    imports.add('Big');
+  }
+
   if (property.dataSource) {
     imports.add('ListAttributeValue');
 
@@ -194,7 +198,11 @@ function mapAttributeToMendixType(property: Property, imports: Set<string>): str
 
 function mapExpressionToMendixType(property: Property, imports: Set<string>): string {
   const baseType = property.returnType ? mapReturnTypeToTS(property.returnType.type) : 'string';
-  
+
+  if (baseType.includes('Big')) {
+    imports.add('Big');
+  }
+
   if (property.dataSource) {
     imports.add('ListExpressionValue');
 
@@ -268,7 +276,7 @@ function mapSelectionToMendixType(property: Property, imports: Set<string>): str
 
 function getAttributeBaseType(attributeTypes: AttributeType[]): string {
   if (attributeTypes.length === 0) return 'any';
-  
+
   const types = attributeTypes.map(type => {
     switch (type) {
       case 'String':
@@ -280,11 +288,11 @@ function getAttributeBaseType(attributeTypes: AttributeType[]): string {
       case 'Integer':
       case 'Long':
       case 'AutoNumber':
-      case 'Float':
       case 'Currency':
-        return 'number';
       case 'Decimal':
         return 'Big';
+      case 'Float':
+        return 'number';
       case 'DateTime':
         return 'Date';
       case 'Binary':
@@ -305,10 +313,12 @@ function mapReturnTypeToTS(returnType: string): string {
     case 'Boolean':
       return 'boolean';
     case 'Integer':
-    case 'Float':
-      return 'number';
+    case 'Long':
+    case 'AutoNumber':
     case 'Decimal':
       return 'Big';
+    case 'Float':
+      return 'number';
     case 'DateTime':
       return 'Date';
     case 'String':
@@ -326,22 +336,24 @@ function generateObjectInterface(property: Property): string {
 
 export function generateMendixImports(imports: string[]): string {
   if (imports.length === 0) return '';
-  
-  const mendixImports = imports.filter(imp => 
-    !['ReactNode'].includes(imp)
-  );
-  
+
   const reactImports = imports.filter(imp => imp === 'ReactNode');
-  
+  const bigJsImports = imports.filter(imp => imp === 'Big');
+  const mendixImports = imports.filter(imp => imp !== 'ReactNode' && imp !== 'Big');
+
   let output = '';
-  
+
   if (reactImports.length > 0) {
     output += `import { ${reactImports.join(', ')} } from 'react';\n`;
   }
-  
+
   if (mendixImports.length > 0) {
     output += `import { ${mendixImports.join(', ')} } from 'mendix';\n`;
   }
-  
+
+  if (bigJsImports.length > 0) {
+    output += `import { ${bigJsImports.join(', ')} } from 'big.js';\n`;
+  }
+
   return output;
 }
