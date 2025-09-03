@@ -1,16 +1,26 @@
 name: Mainline version Release
 
 on:
-  pull_request:
-    types: [closed]
-    branches:
-      - main
+  workflow_dispatch:
+    inputs:
+      new_features:
+        description: 'New features (use \n for line breaks, leave empty if none)'
+        required: false
+        type: string
+        default: ''
+      bug_fixes:
+        description: 'Bug fixes (use \n for line breaks, leave empty if none)'
+        required: false
+        type: string
+        default: ''
+      other_changes:
+        description: 'Other changes (use \n for line breaks, leave empty if none)'
+        required: false
+        type: string
+        default: ''
 
 jobs:
   release:
-    if: |
-      github.event.pull_request.merged == true &&
-      contains(github.event.pull_request.labels.*.name, 'release')
     runs-on: ubuntu-latest
 
     permissions:
@@ -47,32 +57,46 @@ jobs:
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
-          git tag -a "${{ steps.version.outputs.version }}" -m "Release ${{ steps.version.outputs.version }}"
+          git tag -a "${{ steps.version.outputs.version }}" -m "Mainline release ${{ steps.version.outputs.version }}"
           git push origin "${{ steps.version.outputs.version }}"
 
       - name: Prepare release contents
         id: release_contents
         run: |
-          cat << 'EOF' > pr_body.txt
-          # 🚀 New Release (`${{ steps.version.outputs.version }}`)
+          # Process New Features
+          if [ -n "${{ github.event.inputs.new_features }}" ]; then
+            echo "## 🎉 New Features" >> release_body.txt
+            # Replace \n with actual line breaks and format as list items
+            echo "${{ github.event.inputs.new_features }}" | sed 's/\\n/\n/g' | sed 's/^[[:space:]]*-*/- /' | sed '/^[[:space:]]*$/d' >> release_body.txt
+            echo "" >> release_body.txt
+          fi
           
-          EOF
-
-          cat << 'EOF' > pr_body.txt
-          ${{ github.event.pull_request.body }}
-          EOF
+          # Process Bug Fixes
+          if [ -n "${{ github.event.inputs.bug_fixes }}" ]; then
+            echo "## 🐛 Bug Fixes" >> release_body.txt
+            # Replace \n with actual line breaks and format as list items
+            echo "${{ github.event.inputs.bug_fixes }}" | sed 's/\\n/\n/g' | sed 's/^[[:space:]]*-*/- /' | sed '/^[[:space:]]*$/d' >> release_body.txt
+            echo "" >> release_body.txt
+          fi
           
-          cat << 'EOF' >> pr_body.txt
+          # Process Other Changes
+          if [ -n "${{ github.event.inputs.other_changes }}" ]; then
+            echo "## 🔧 Other Changes" >> release_body.txt
+            # Replace \n with actual line breaks and format as list items
+            echo "${{ github.event.inputs.other_changes }}" | sed 's/\\n/\n/g' | sed 's/^[[:space:]]*-*/- /' | sed '/^[[:space:]]*$/d' >> release_body.txt
+            echo "" >> release_body.txt
+          fi
           
+          # Add installation and warning sections
+          cat << 'EOF' >> release_body.txt
           ## 📦 Installation
           ```bash
           npm install --dev @repixelcorp/hyper-pwt@${{ steps.version.outputs.version }}
           ```
           
-          EOF
-          
+          # Output the content
           echo "body<<EOF" >> $GITHUB_OUTPUT
-          cat pr_body.txt >> $GITHUB_OUTPUT
+          cat release_body.txt >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
@@ -86,6 +110,10 @@ jobs:
           body: ${{ steps.release_contents.outputs.body }}
           draft: false
           prerelease: false
+      
+      - name: Update package.json version
+        run: |
+          npm version ${{ steps.version.outputs.version }} --no-git-tag-version --allow-same-version
 
       - name: Build package
         run: pnpm build
