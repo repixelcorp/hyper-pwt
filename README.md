@@ -93,6 +93,20 @@ TODO
 
 ## Performance compare with Mendix PWT
 
+The results below were obtained using our own tools within the [benchmark directory](./benchmark), and the code for the benchmarked widgets is also available for review.
+
+If you wish to reproduce the benchmark results, you can do so using the tools and widgets within the [benchmark directory](./benchmark).
+
+### Web Widget Build
+
+|Category|@mendix/pluggable-widgets-tools|@repixelcorp/hyper-pwt|Result|
+|--------|-------------------------------|----------------------|------|
+|Build time|27475ms|4135ms|**-23340.00ms (84.95% faster)**|
+|Memory Usage|0.11MB|0.08MB|**-0.03MB (26.93% less)**|
+|MPK File Size|1.26MB|557.08KB|**-731.37KB (56.76% less)**|
+
+### Native Widget
+
 TODO
 
 ## Support pwt tasks

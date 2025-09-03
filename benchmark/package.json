@@ -1,0 +1,21 @@
+{
+  "name": "widget-build-benchmark",
+  "version": "1.0.0",
+  "description": "Benchmark tool for comparing Mendix widget builds",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "benchmark": "node src/benchmark.js",
+    "benchmark:verbose": "node src/benchmark.js --verbose",
+    "benchmark:json": "node src/benchmark.js --json",
+    "compare": "node src/compare.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "cli-table3": "^0.6.5",
+    "fs-extra": "^11.2.0"
+  },
+  "devDependencies": {}
+}
