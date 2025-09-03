@@ -1,4 +1,4 @@
-import path from "path";
+import path from "node:path";
 
 import { PROJECT_DIRECTORY } from "../constants";
 import getWidgetPackageJson from "./getWidgetPackageJson";

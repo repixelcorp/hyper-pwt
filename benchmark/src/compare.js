@@ -1,24 +1,29 @@
-import fs from 'fs-extra';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import chalk from 'chalk';
-import Table from 'cli-table3';
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import chalk from "chalk";
+import Table from "cli-table3";
+import fs from "fs-extra";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const rootDir = path.join(__dirname, '..');
+const rootDir = path.join(__dirname, "..");
 
 class BuildComparator {
   constructor() {
-    this.artifactsDir = path.join(rootDir, 'artifacts');
+    this.artifactsDir = path.join(rootDir, "artifacts");
   }
 
   async compareFiles() {
-    const standardDir = path.join(this.artifactsDir, 'standard', 'dist');
-    const hyperDir = path.join(this.artifactsDir, 'hyper', 'dist');
+    const standardDir = path.join(this.artifactsDir, "standard", "dist");
+    const hyperDir = path.join(this.artifactsDir, "hyper", "dist");
 
-    if (!await fs.pathExists(standardDir) || !await fs.pathExists(hyperDir)) {
-      console.error(chalk.red('Build artifacts not found. Please run benchmark first.'));
+    if (
+      !(await fs.pathExists(standardDir)) ||
+      !(await fs.pathExists(hyperDir))
+    ) {
+      console.error(
+        chalk.red("Build artifacts not found. Please run benchmark first."),
+      );
       return;
     }
 
@@ -26,11 +31,16 @@ class BuildComparator {
     const hyperFiles = await this.getFileMap(hyperDir);
 
     const table = new Table({
-      head: ['File', 'Standard Size', 'Hyper Size', 'Difference'],
-      style: { head: ['cyan'] }
+      head: ["File", "Standard Size", "Hyper Size", "Difference"],
+      style: {
+        head: ["cyan"],
+      },
     });
 
-    const allFiles = new Set([...Object.keys(standardFiles), ...Object.keys(hyperFiles)]);
+    const allFiles = new Set([
+      ...Object.keys(standardFiles),
+      ...Object.keys(hyperFiles),
+    ]);
 
     let totalStandard = 0;
     let totalHyper = 0;
@@ -39,66 +49,80 @@ class BuildComparator {
       const stdSize = standardFiles[file] || 0;
       const hyperSize = hyperFiles[file] || 0;
       const diff = hyperSize - stdSize;
-      
+
       totalStandard += stdSize;
       totalHyper += hyperSize;
 
       if (stdSize === 0) {
         table.push([
           file,
-          '-',
+          "-",
           this.formatBytes(hyperSize),
-          chalk.yellow('New file')
+          chalk.yellow("New file"),
         ]);
       } else if (hyperSize === 0) {
         table.push([
           file,
           this.formatBytes(stdSize),
-          '-',
-          chalk.red('Removed')
+          "-",
+          chalk.red("Removed"),
         ]);
       } else {
         const percentage = ((diff / stdSize) * 100).toFixed(1);
-        const diffStr = diff > 0 
-          ? chalk.red(`+${this.formatBytes(diff)} (+${percentage}%)`)
-          : diff < 0 
-            ? chalk.green(`${this.formatBytes(diff)} (${percentage}%)`)
-            : chalk.gray('No change');
-        
+        const diffStr =
+          diff > 0
+            ? chalk.red(`+${this.formatBytes(diff)} (+${percentage}%)`)
+            : diff < 0
+              ? chalk.green(`${this.formatBytes(diff)} (${percentage}%)`)
+              : chalk.gray("No change");
+
         table.push([
           file,
           this.formatBytes(stdSize),
           this.formatBytes(hyperSize),
-          diffStr
+          diffStr,
         ]);
       }
     }
 
     // Add total row
     table.push([
-      chalk.bold('TOTAL'),
+      chalk.bold("TOTAL"),
       chalk.bold(this.formatBytes(totalStandard)),
       chalk.bold(this.formatBytes(totalHyper)),
-      chalk.bold(this.formatDifference(totalHyper - totalStandard, totalStandard))
+      chalk.bold(
+        this.formatDifference(totalHyper - totalStandard, totalStandard),
+      ),
     ]);
 
-    console.log('\n' + chalk.bold.cyan('=== File Size Comparison ===\n'));
+    console.log(`\n${chalk.bold.cyan("=== File Size Comparison ===\n")}`);
     console.log(table.toString());
 
     // Check for content differences
-    await this.compareFileContents(standardFiles, hyperFiles, standardDir, hyperDir);
+    await this.compareFileContents(
+      standardFiles,
+      hyperFiles,
+      standardDir,
+      hyperDir,
+    );
   }
 
   async compareFileContents(standardFiles, hyperFiles, standardDir, hyperDir) {
-    const jsFiles = Object.keys(standardFiles).filter(f => f.endsWith('.js'));
+    const jsFiles = Object.keys(standardFiles).filter((f) => f.endsWith(".js"));
     let identicalCount = 0;
     let differentCount = 0;
 
     for (const file of jsFiles) {
       if (hyperFiles[file]) {
-        const stdContent = await fs.readFile(path.join(standardDir, file), 'utf8');
-        const hyperContent = await fs.readFile(path.join(hyperDir, file), 'utf8');
-        
+        const stdContent = await fs.readFile(
+          path.join(standardDir, file),
+          "utf8",
+        );
+        const hyperContent = await fs.readFile(
+          path.join(hyperDir, file),
+          "utf8",
+        );
+
         if (stdContent === hyperContent) {
           identicalCount++;
         } else {
@@ -107,12 +131,12 @@ class BuildComparator {
       }
     }
 
-    console.log('\n' + chalk.bold('Content Analysis:'));
+    console.log(`\n${chalk.bold("Content Analysis:")}`);
     console.log(`• ${identicalCount} files have identical content`);
     console.log(`• ${differentCount} files have different content`);
   }
 
-  async getFileMap(dir, basePath = '') {
+  async getFileMap(dir, basePath = "") {
     const files = {};
     const items = await fs.readdir(dir);
 
@@ -146,7 +170,7 @@ class BuildComparator {
     } else if (diff < 0) {
       return chalk.green(`${this.formatBytes(diff)} (${percentage}%)`);
     }
-    return chalk.gray('No change');
+    return chalk.gray("No change");
   }
 }
 

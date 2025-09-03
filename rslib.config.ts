@@ -3,50 +3,50 @@ import { defineConfig } from "@rslib/core";
 export default defineConfig({
   lib: [
     {
-      format: 'cjs',
+      format: "cjs",
       bundle: true,
       dts: true,
       source: {
         entry: {
-          cli: 'src/cli.ts'
-        }
+          cli: "src/cli.ts",
+        },
       },
       output: {
         filename: {
-          js: '[name].js'
-        }
-      }
+          js: "[name].js",
+        },
+      },
     },
     {
-      format: 'esm',
+      format: "esm",
       bundle: true,
       dts: true,
       source: {
         entry: {
-          index: 'src/index.ts'
-        }
+          index: "src/index.ts",
+        },
       },
       output: {
         filename: {
-          js: '[name].mjs'
-        }
-      }
+          js: "[name].mjs",
+        },
+      },
     },
     {
-      format: 'cjs',
+      format: "cjs",
       bundle: true,
       dts: false,
       source: {
         entry: {
-          index: 'src/index.ts'
-        }
+          index: "src/index.ts",
+        },
       },
       output: {
         filename: {
-          js: '[name].cjs'
-        }
-      }
-    }
+          js: "[name].cjs",
+        },
+      },
+    },
   ],
   output: {
     minify: {
@@ -59,10 +59,10 @@ export default defineConfig({
             defaults: true,
             unused: true,
             dead_code: true,
-            toplevel: true
-          }
-        }
-      }
-    }
-  }
+            toplevel: true,
+          },
+        },
+      },
+    },
+  },
 });

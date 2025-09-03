@@ -8,5 +8,5 @@
     "module": "preserve",
     "moduleResolution": "bundler",
     "target": "esnext"
-  },
+  }
 }

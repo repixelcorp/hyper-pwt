@@ -1,153 +1,165 @@
-import { UserConfig } from "vite";
-import react from '@vitejs/plugin-react';
-import path from "path";
+import path from "node:path";
+import react from "@vitejs/plugin-react";
 import typescript from "rollup-plugin-typescript2";
-
-import getWidgetName from "../../utils/getWidgetName";
+import type { UserConfig } from "vite";
+import type { PWTConfig } from "../..";
 import { PROJECT_DIRECTORY, WEB_OUTPUT_DIRECTORY } from "../../constants";
 import getViteOutputDirectory from "../../utils/getViteOutputDirectory";
-import { PWTConfig } from "../..";
+import getWidgetName from "../../utils/getWidgetName";
 
-export const getEditorConfigDefaultConfig = async (isProduction: boolean): Promise<UserConfig> => {
+export const getEditorConfigDefaultConfig = async (
+  isProduction: boolean,
+): Promise<UserConfig> => {
   const widgetName = await getWidgetName();
 
   return {
     plugins: [],
     build: {
       outDir: WEB_OUTPUT_DIRECTORY,
-      minify: isProduction ? true : false,
+      minify: !!isProduction,
       emptyOutDir: false,
-      sourcemap: isProduction ? false : true,
+      sourcemap: !isProduction,
       lib: {
-        entry: path.join(PROJECT_DIRECTORY, `/src/${widgetName}.editorConfig.ts`),
+        entry: path.join(
+          PROJECT_DIRECTORY,
+          `/src/${widgetName}.editorConfig.ts`,
+        ),
         name: `${widgetName}.editorConfig`,
         fileName: () => {
           return `${widgetName}.editorConfig.js`;
         },
-        formats: ['umd']
+        formats: ["umd"],
       },
     },
   };
 };
 
-export const getEditorPreviewDefaultConfig = async (isProduction: boolean): Promise<UserConfig> => {
+export const getEditorPreviewDefaultConfig = async (
+  isProduction: boolean,
+): Promise<UserConfig> => {
   const widgetName = await getWidgetName();
 
   return {
     plugins: [
       react({
-        jsxRuntime: 'classic'
-      })
+        jsxRuntime: "classic",
+      }),
     ],
     define: {
-      'process.env': {},
-      'process.env.NODE_ENV': '"production"'
+      "process.env": {},
+      "process.env.NODE_ENV": '"production"',
     },
     build: {
       outDir: WEB_OUTPUT_DIRECTORY,
-      minify: isProduction ? true : false,
+      minify: !!isProduction,
       emptyOutDir: false,
-      sourcemap: isProduction ? false : true,
+      sourcemap: !isProduction,
       lib: {
-        entry: path.join(PROJECT_DIRECTORY, `/src/${widgetName}.editorPreview.tsx`),
+        entry: path.join(
+          PROJECT_DIRECTORY,
+          `/src/${widgetName}.editorPreview.tsx`,
+        ),
         name: `${widgetName}.editorPreview`,
         fileName: () => {
           return `${widgetName}.editorPreview.js`;
         },
-        formats: ['umd']
+        formats: ["umd"],
       },
       rolldownOptions: {
         external: [
-          'react',
-          'react-dom',
-          'react-dom/client',
-          'react/jsx-runtime',
-          'react/jsx-dev-runtime',
-          /^mendix($|\/)/
+          "react",
+          "react-dom",
+          "react-dom/client",
+          "react/jsx-runtime",
+          "react/jsx-dev-runtime",
+          /^mendix($|\/)/,
         ],
         output: {
           globals: {
-            react: 'React',
-            'react-dom': 'ReactDOM',
-            'react-dom/client': 'ReactDOM'
-          }
-        }
-      }
+            react: "React",
+            "react-dom": "ReactDOM",
+            "react-dom/client": "ReactDOM",
+          },
+        },
+      },
     },
   };
 };
 
-export const getViteDefaultConfig = async (isProduction: boolean, userCustomConfig?: PWTConfig): Promise<UserConfig> => {
+export const getViteDefaultConfig = async (
+  isProduction: boolean,
+  userCustomConfig?: PWTConfig,
+): Promise<UserConfig> => {
   const widgetName = await getWidgetName();
   const viteOutputDirectory = await getViteOutputDirectory();
 
   return {
     plugins: [
       react({
-        ...userCustomConfig?.reactPluginOptions || {},
-        jsxRuntime: 'classic'
-      })
+        ...(userCustomConfig?.reactPluginOptions || {}),
+        jsxRuntime: "classic",
+      }),
     ],
     define: {
-      'process.env': {},
-      'process.env.NODE_ENV': isProduction ? '"production"' : '"development"'
+      "process.env": {},
+      "process.env.NODE_ENV": isProduction ? '"production"' : '"development"',
     },
     build: {
       outDir: viteOutputDirectory,
-      minify: isProduction ? true : false,
-      cssMinify: isProduction ? true : false,
-      sourcemap: isProduction ? false : true,
+      minify: !!isProduction,
+      cssMinify: !!isProduction,
+      sourcemap: !isProduction,
       lib: {
-        formats: isProduction ? ['umd'] : ['es', 'umd'],
+        formats: isProduction ? ["umd"] : ["es", "umd"],
         entry: path.join(PROJECT_DIRECTORY, `/src/${widgetName}.tsx`),
         name: widgetName,
         fileName: (format, entry) => {
-          if (format === 'umd') {
+          if (format === "umd") {
             return `${widgetName}.js`;
           }
 
-          if (format === 'es') {
+          if (format === "es") {
             return `${widgetName}.mjs`;
           }
 
           return entry;
         },
-        cssFileName: widgetName
+        cssFileName: widgetName,
       },
       rolldownOptions: {
         plugins: [
           typescript({
-            tsconfig: path.join(PROJECT_DIRECTORY, 'tsconfig.json'),
+            tsconfig: path.join(PROJECT_DIRECTORY, "tsconfig.json"),
             tsconfigOverride: {
               compilerOptions: {
-                jsx: 'preserve',
+                jsx: "preserve",
                 preserveConstEnums: false,
                 isolatedModules: false,
-                declaration: false
-              }
+                declaration: false,
+              },
             },
             include: ["src/**/*.ts", "src/**/*.tsx"],
             exclude: ["node_modules/**", "src/**/*.d.ts"],
             check: false,
-          })
+          }),
         ],
         external: [
-          'react',
-          'react-dom',
-          'react-dom/client',
-          'react/jsx-runtime',
-          'react/jsx-dev-runtime',
-          /^mendix($|\/)/
+          "react",
+          "react-dom",
+          "react-dom/client",
+          "react/jsx-runtime",
+          "react/jsx-dev-runtime",
+          /^mendix($|\/)/,
         ],
         output: {
           globals: {
-            react: 'React',
-            'react-dom': 'ReactDOM',
-            'react-dom/client': 'ReactDOM'
-          }
-        }
-      }
+            react: "React",
+            "react-dom": "ReactDOM",
+            "react-dom/client": "ReactDOM",
+          },
+        },
+      },
     },
-    ...userCustomConfig
-  }
+    ...userCustomConfig,
+  };
 };

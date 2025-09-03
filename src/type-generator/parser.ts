@@ -1,28 +1,28 @@
-import { XMLParser } from 'fast-xml-parser';
+import { XMLParser } from "fast-xml-parser";
 import type {
-  WidgetDefinition,
-  Property,
-  PropertyGroup,
-  SystemProperty,
-  AttributeType,
   AssociationType,
-  SelectionType,
+  AttributeType,
   EnumerationValue,
-  ParsedXMLWidget,
+  ParsedXMLAssociationType,
+  ParsedXMLAttributeType,
+  ParsedXMLEnumerationValue,
   ParsedXMLProperty,
   ParsedXMLPropertyGroup,
-  ParsedXMLSystemProperty,
-  ParsedXMLAttributeType,
-  ParsedXMLAssociationType,
   ParsedXMLSelectionType,
-  ParsedXMLEnumerationValue,
-} from './types';
-import { ensureArray } from './utils';
+  ParsedXMLSystemProperty,
+  ParsedXMLWidget,
+  Property,
+  PropertyGroup,
+  SelectionType,
+  SystemProperty,
+  WidgetDefinition,
+} from "./types";
+import { ensureArray } from "./utils";
 
 const parserOptions = {
   ignoreAttributes: false,
-  attributeNamePrefix: '',
-  textNodeName: '_',
+  attributeNamePrefix: "",
+  textNodeName: "_",
   parseAttributeValue: false,
   trimValues: true,
   parseTrueNumberOnly: false,
@@ -35,7 +35,7 @@ export function parseWidgetXML(xmlContent: string): WidgetDefinition {
   const parsedXML = parser.parse(xmlContent) as ParsedXMLWidget;
 
   if (!parsedXML.widget) {
-    throw new Error('Invalid widget XML: missing widget element');
+    throw new Error("Invalid widget XML: missing widget element");
   }
 
   const widget = parsedXML.widget;
@@ -44,10 +44,11 @@ export function parseWidgetXML(xmlContent: string): WidgetDefinition {
     id: widget.id,
     name: widget.name,
     description: widget.description,
-    needsEntityContext: widget.needsEntityContext === 'true',
-    pluginWidget: widget.pluginWidget === 'true',
-    offlineCapable: widget.offlineCapable === 'true',
-    supportedPlatform: (widget.supportedPlatform as 'All' | 'Native' | 'Web') || 'Web',
+    needsEntityContext: widget.needsEntityContext === "true",
+    pluginWidget: widget.pluginWidget === "true",
+    offlineCapable: widget.offlineCapable === "true",
+    supportedPlatform:
+      (widget.supportedPlatform as "All" | "Native" | "Web") || "Web",
     properties: [],
   };
 
@@ -58,15 +59,15 @@ export function parseWidgetXML(xmlContent: string): WidgetDefinition {
   return widgetDef;
 }
 
-function parseProperties(props: any): PropertyGroup[] | Property[] {
+function parseProperties(props): PropertyGroup[] | Property[] {
   if (props.propertyGroup) {
     const groups = ensureArray(props.propertyGroup);
 
-    return groups.map(group => parsePropertyGroup(group));
+    return groups.map((group) => parsePropertyGroup(group));
   }
 
   const properties: Property[] = [];
-  
+
   if (props.property) {
     const propsArray = ensureArray(props.property);
 
@@ -105,10 +106,10 @@ function parseProperty(prop: ParsedXMLProperty): Property {
   const property: Property = {
     key: prop.key,
     type: prop.type,
-    caption: prop.caption || '',
-    description: prop.description || '',
-    required: prop.required !== 'false',
-    isList: prop.isList === 'true',
+    caption: prop.caption || "",
+    description: prop.description || "",
+    required: prop.required !== "false",
+    isList: prop.isList === "true",
   };
 
   if (prop.defaultValue !== undefined) {
@@ -141,13 +142,15 @@ function parseProperty(prop: ParsedXMLProperty): Property {
 
   if (prop.properties) {
     const parsedProps = parseProperties(prop.properties);
-    property.properties = parsedProps.filter(p => !('caption' in p && 'properties' in p)) as Property[];
+    property.properties = parsedProps.filter(
+      (p) => !("caption" in p && "properties" in p),
+    ) as Property[];
   }
 
   if (prop.returnType) {
     property.returnType = {
-      type: prop.returnType.type as any,
-      isList: prop.returnType.isList === 'true',
+      type: prop.returnType.type as "String",
+      isList: prop.returnType.isList === "true",
     };
   }
 
@@ -166,28 +169,36 @@ function parseSystemProperty(sysProp: ParsedXMLSystemProperty): SystemProperty {
   return systemProperty;
 }
 
-function parseAttributeTypes(attributeTypes: { attributeType: ParsedXMLAttributeType | ParsedXMLAttributeType[] }): AttributeType[] {
+function parseAttributeTypes(attributeTypes: {
+  attributeType: ParsedXMLAttributeType | ParsedXMLAttributeType[];
+}): AttributeType[] {
   const types = ensureArray(attributeTypes.attributeType);
-  
-  return types.map(type => type.name);
+
+  return types.map((type) => type.name);
 }
 
-function parseAssociationTypes(associationTypes: { associationType: ParsedXMLAssociationType | ParsedXMLAssociationType[] }): AssociationType[] {
+function parseAssociationTypes(associationTypes: {
+  associationType: ParsedXMLAssociationType | ParsedXMLAssociationType[];
+}): AssociationType[] {
   const types = ensureArray(associationTypes.associationType);
 
-  return types.map(type => type.name);
+  return types.map((type) => type.name);
 }
 
-function parseSelectionTypes(selectionTypes: { selectionType: ParsedXMLSelectionType | ParsedXMLSelectionType[] }): SelectionType[] {
+function parseSelectionTypes(selectionTypes: {
+  selectionType: ParsedXMLSelectionType | ParsedXMLSelectionType[];
+}): SelectionType[] {
   const types = ensureArray(selectionTypes.selectionType);
 
-  return types.map(type => type.name);
+  return types.map((type) => type.name);
 }
 
-function parseEnumerationValues(enumerationValues: { enumerationValue: ParsedXMLEnumerationValue | ParsedXMLEnumerationValue[] }): EnumerationValue[] {
+function parseEnumerationValues(enumerationValues: {
+  enumerationValue: ParsedXMLEnumerationValue | ParsedXMLEnumerationValue[];
+}): EnumerationValue[] {
   const values = ensureArray(enumerationValues.enumerationValue);
 
-  return values.map(value => ({
+  return values.map((value) => ({
     key: value.key,
     value: value._ || value.key,
   }));

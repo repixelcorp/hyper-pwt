@@ -5,7 +5,7 @@ export interface WidgetDefinition {
   needsEntityContext?: boolean;
   pluginWidget?: boolean;
   offlineCapable?: boolean;
-  supportedPlatform?: 'All' | 'Native' | 'Web';
+  supportedPlatform?: "All" | "Native" | "Web";
   properties: PropertyGroup[] | Property[];
 }
 
@@ -38,54 +38,54 @@ export interface SystemProperty {
 }
 
 export type PropertyType =
-  | 'action'
-  | 'association'
-  | 'attribute'
-  | 'boolean'
-  | 'datasource'
-  | 'decimal'
-  | 'entity'
-  | 'entityConstraint'
-  | 'enumeration'
-  | 'expression'
-  | 'file'
-  | 'form'
-  | 'icon'
-  | 'image'
-  | 'integer'
-  | 'microflow'
-  | 'nanoflow'
-  | 'object'
-  | 'selection'
-  | 'string'
-  | 'translatableString'
-  | 'textTemplate'
-  | 'widgets';
+  | "action"
+  | "association"
+  | "attribute"
+  | "boolean"
+  | "datasource"
+  | "decimal"
+  | "entity"
+  | "entityConstraint"
+  | "enumeration"
+  | "expression"
+  | "file"
+  | "form"
+  | "icon"
+  | "image"
+  | "integer"
+  | "microflow"
+  | "nanoflow"
+  | "object"
+  | "selection"
+  | "string"
+  | "translatableString"
+  | "textTemplate"
+  | "widgets";
 
 export type AttributeType =
-  | 'AutoNumber'
-  | 'Binary'
-  | 'Boolean'
-  | 'Currency'
-  | 'DateTime'
-  | 'Enum'
-  | 'Float'
-  | 'HashString'
-  | 'Integer'
-  | 'Long'
-  | 'String'
-  | 'Decimal';
+  | "AutoNumber"
+  | "Binary"
+  | "Boolean"
+  | "Currency"
+  | "DateTime"
+  | "Enum"
+  | "Float"
+  | "HashString"
+  | "Integer"
+  | "Long"
+  | "String"
+  | "Decimal";
 
-export type AssociationType = 'Reference' | 'ReferenceSet';
+export type AssociationType = "Reference" | "ReferenceSet";
 
-export type SelectionType = 'None' | 'Single' | 'Multi';
+export type SelectionType = "None" | "Single" | "Multi";
 
 export type SystemPropertyKey =
-  | 'Label'
-  | 'Name'
-  | 'TabIndex'
-  | 'Editability'
-  | 'Visibility';
+  | "Label"
+  | "Name"
+  | "TabIndex"
+  | "Editability"
+  | "Visibility";
 
 export interface EnumerationValue {
   key: string;
@@ -93,7 +93,15 @@ export interface EnumerationValue {
 }
 
 export interface ReturnType {
-  type: 'Void' | 'Boolean' | 'Integer' | 'Float' | 'DateTime' | 'String' | 'Object' | 'Decimal';
+  type:
+    | "Void"
+    | "Boolean"
+    | "Integer"
+    | "Float"
+    | "DateTime"
+    | "String"
+    | "Object"
+    | "Decimal";
   isList?: boolean;
 }
 
