@@ -1,0 +1,137 @@
+{
+  "standardBuild": {
+    "metrics": {
+      "success": true,
+      "buildTime": 27475,
+      "memoryUsed": 0.10602569580078125,
+      "output": null
+    },
+    "analysis": {
+      "distSize": 5757679,
+      "fileCount": 8,
+      "files": [
+        {
+          "path": "1.0.0\\kr.co.repixel.BenchmarkWidget.mpk",
+          "size": 1319374
+        },
+        {
+          "path": "tmp\\widgets\\BenchmarkWidget.editorConfig.js",
+          "size": 1336
+        },
+        {
+          "path": "tmp\\widgets\\BenchmarkWidget.editorPreview.js",
+          "size": 5428
+        },
+        {
+          "path": "tmp\\widgets\\BenchmarkWidget.xml",
+          "size": 821
+        },
+        {
+          "path": "tmp\\widgets\\kr\\co\\repixel\\benchmarkwidget\\BenchmarkWidget.css",
+          "size": 29286
+        },
+        {
+          "path": "tmp\\widgets\\kr\\co\\repixel\\benchmarkwidget\\BenchmarkWidget.js",
+          "size": 2217161
+        },
+        {
+          "path": "tmp\\widgets\\kr\\co\\repixel\\benchmarkwidget\\BenchmarkWidget.mjs",
+          "size": 2183855
+        },
+        {
+          "path": "tmp\\widgets\\package.xml",
+          "size": 418
+        }
+      ],
+      "mpkSize": 0
+    }
+  },
+  "hyperBuild": {
+    "metrics": {
+      "success": true,
+      "buildTime": 4135,
+      "memoryUsed": 0.0774688720703125,
+      "output": null
+    },
+    "analysis": {
+      "distSize": 3187053,
+      "fileCount": 13,
+      "files": [
+        {
+          "path": "1.0.0\\kr.co.repixel.BenchmarkWidget.mpk",
+          "size": 570454
+        },
+        {
+          "path": "tmp\\widgets\\BenchmarkWidget.editorConfig.js",
+          "size": 587
+        },
+        {
+          "path": "tmp\\widgets\\BenchmarkWidget.editorConfig.js.map",
+          "size": 5113
+        },
+        {
+          "path": "tmp\\widgets\\BenchmarkWidget.editorPreview.js",
+          "size": 1915
+        },
+        {
+          "path": "tmp\\widgets\\BenchmarkWidget.editorPreview.js.map",
+          "size": 627
+        },
+        {
+          "path": "tmp\\widgets\\BenchmarkWidget.xml",
+          "size": 821
+        },
+        {
+          "path": "tmp\\widgets\\benchmarkwidget.css",
+          "size": 70
+        },
+        {
+          "path": "tmp\\widgets\\kr\\co\\repixel\\benchmarkwidget\\BenchmarkWidget.css",
+          "size": 18264
+        },
+        {
+          "path": "tmp\\widgets\\kr\\co\\repixel\\benchmarkwidget\\BenchmarkWidget.js",
+          "size": 425059
+        },
+        {
+          "path": "tmp\\widgets\\kr\\co\\repixel\\benchmarkwidget\\BenchmarkWidget.js.map",
+          "size": 876262
+        },
+        {
+          "path": "tmp\\widgets\\kr\\co\\repixel\\benchmarkwidget\\BenchmarkWidget.mjs",
+          "size": 412821
+        },
+        {
+          "path": "tmp\\widgets\\kr\\co\\repixel\\benchmarkwidget\\BenchmarkWidget.mjs.map",
+          "size": 874642
+        },
+        {
+          "path": "tmp\\widgets\\package.xml",
+          "size": 418
+        }
+      ],
+      "mpkSize": 0
+    }
+  },
+  "comparison": {
+    "buildTime": {
+      "difference": -23340,
+      "percentage": "-84.95"
+    },
+    "memoryUsage": {
+      "difference": -0.02855682373046875,
+      "percentage": "-26.93"
+    },
+    "distSize": {
+      "difference": -2570626,
+      "percentage": "-44.65"
+    },
+    "mpkSize": {
+      "difference": 0,
+      "percentage": "NaN"
+    },
+    "fileCount": {
+      "difference": 5
+    }
+  }
+}
