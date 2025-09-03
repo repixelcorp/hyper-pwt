@@ -5,21 +5,13 @@ export interface WidgetDefinition {
   needsEntityContext?: boolean;
   pluginWidget?: boolean;
   offlineCapable?: boolean;
-  supportedPlatform?:
-    | "All"
-    | "Native"
-    | "Web";
-  properties:
-    | PropertyGroup[]
-    | Property[];
+  supportedPlatform?: "All" | "Native" | "Web";
+  properties: PropertyGroup[] | Property[];
 }
 
 export interface PropertyGroup {
   caption: string;
-  properties: (
-    | Property
-    | SystemProperty
-  )[];
+  properties: (Property | SystemProperty)[];
 }
 
 export interface Property {
@@ -84,14 +76,9 @@ export type AttributeType =
   | "String"
   | "Decimal";
 
-export type AssociationType =
-  | "Reference"
-  | "ReferenceSet";
+export type AssociationType = "Reference" | "ReferenceSet";
 
-export type SelectionType =
-  | "None"
-  | "Single"
-  | "Multi";
+export type SelectionType = "None" | "Single" | "Multi";
 
 export type SystemPropertyKey =
   | "Label"
@@ -132,25 +119,15 @@ export interface ParsedXMLWidget {
 }
 
 export interface ParsedXMLProperties {
-  property?:
-    | ParsedXMLProperty
-    | ParsedXMLProperty[];
-  propertyGroup?:
-    | ParsedXMLPropertyGroup
-    | ParsedXMLPropertyGroup[];
-  systemProperty?:
-    | ParsedXMLSystemProperty
-    | ParsedXMLSystemProperty[];
+  property?: ParsedXMLProperty | ParsedXMLProperty[];
+  propertyGroup?: ParsedXMLPropertyGroup | ParsedXMLPropertyGroup[];
+  systemProperty?: ParsedXMLSystemProperty | ParsedXMLSystemProperty[];
 }
 
 export interface ParsedXMLPropertyGroup {
   caption: string;
-  property?:
-    | ParsedXMLProperty
-    | ParsedXMLProperty[];
-  systemProperty?:
-    | ParsedXMLSystemProperty
-    | ParsedXMLSystemProperty[];
+  property?: ParsedXMLProperty | ParsedXMLProperty[];
+  systemProperty?: ParsedXMLSystemProperty | ParsedXMLSystemProperty[];
 }
 
 export interface ParsedXMLProperty {
@@ -164,24 +141,16 @@ export interface ParsedXMLProperty {
   caption: string;
   description: string;
   attributeTypes?: {
-    attributeType:
-      | ParsedXMLAttributeType
-      | ParsedXMLAttributeType[];
+    attributeType: ParsedXMLAttributeType | ParsedXMLAttributeType[];
   };
   associationTypes?: {
-    associationType:
-      | ParsedXMLAssociationType
-      | ParsedXMLAssociationType[];
+    associationType: ParsedXMLAssociationType | ParsedXMLAssociationType[];
   };
   selectionTypes?: {
-    selectionType:
-      | ParsedXMLSelectionType
-      | ParsedXMLSelectionType[];
+    selectionType: ParsedXMLSelectionType | ParsedXMLSelectionType[];
   };
   enumerationValues?: {
-    enumerationValue:
-      | ParsedXMLEnumerationValue
-      | ParsedXMLEnumerationValue[];
+    enumerationValue: ParsedXMLEnumerationValue | ParsedXMLEnumerationValue[];
   };
   properties?: ParsedXMLProperties;
   returnType?: {

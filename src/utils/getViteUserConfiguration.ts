@@ -1,35 +1,18 @@
-import {
-  PWTConfig,
-  PWTConfigFn,
-  PWTConfigFnPromise,
-} from "..";
+import type { PWTConfig, PWTConfigFn, PWTConfigFnPromise } from "..";
 
-const getViteUserConfiguration =
-  async (
-    path: string,
-  ): Promise<PWTConfig> => {
-    const getUserConfig =
-      await import(
-        `file://${path}`
-      );
-    const getUserConfigFn:
-      | PWTConfigFn
-      | PWTConfigFnPromise =
-      getUserConfig.default;
-    const userConfig =
-      getUserConfigFn();
+const getViteUserConfiguration = async (path: string): Promise<PWTConfig> => {
+  const getUserConfig = await import(`file://${path}`);
+  const getUserConfigFn: PWTConfigFn | PWTConfigFnPromise =
+    getUserConfig.default;
+  const userConfig = getUserConfigFn();
 
-    if (
-      userConfig instanceof
-      Promise
-    ) {
-      const userConfigValue =
-        await userConfig;
+  if (userConfig instanceof Promise) {
+    const userConfigValue = await userConfig;
 
-      return userConfigValue;
-    }
+    return userConfigValue;
+  }
 
-    return userConfig;
-  };
+  return userConfig;
+};
 
 export default getViteUserConfiguration;

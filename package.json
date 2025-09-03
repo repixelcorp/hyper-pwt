@@ -11,7 +11,12 @@
     "watch": "rslib build --watch",
     "start": "pnpm build && node ./dist/cli.js",
     "package": "pnpm build && pnpm pack",
-    "prepare": "node ./tools/copy-widget-schema.js"
+    "prepare": "husky",
+    "lint": "biome check",
+    "lint:fix": "biome check --write"
+  },
+  "lint-staged": {
+    "*": "biome check --write"
   },
   "main": "dist/index.cjs",
   "module": "dist/index.mjs",
@@ -40,6 +45,7 @@
     "@biomejs/biome": "2.2.2",
     "@rslib/core": "0.12.2",
     "@types/node": "22.17.2",
+    "husky": "9.1.7",
     "type-fest": "4.41.0",
     "typescript": "5.9.2"
   },
