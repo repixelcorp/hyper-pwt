@@ -4,7 +4,10 @@
     "sourceMap": true,
     "module": "esnext",
     "target": "es6",
-    "lib": ["esnext", "dom"],
+    "lib": [
+      "esnext",
+      "dom"
+    ],
     "moduleResolution": "bundler",
     "declaration": false,
     "noLib": false,

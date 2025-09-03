@@ -1,12 +1,18 @@
 {
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"],
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
   "compilerOptions": {
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "lib": ["ESNext"],
+    "lib": [
+      "ESNext"
+    ],
     "module": "preserve",
     "moduleResolution": "bundler",
     "target": "esnext"
-  },
+  }
 }

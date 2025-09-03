@@ -4,31 +4,64 @@ import { Plugin } from "vite";
 // @todo Depending on the React version, we need to consider whether there is a way to handle this automatically rather than manually.
 export function mendixHotreloadReactPlugin(): Plugin {
   return {
-    name: 'mendix-hotreload-react-18.2.0',
-    enforce: 'pre',
+    name: "mendix-hotreload-react-18.2.0",
+    enforce: "pre",
     resolveId(id) {
-      if (id === 'react') {
-        return { id: 'mendix:react', external: true };
+      if (
+        id ===
+        "react"
+      ) {
+        return {
+          id: "mendix:react",
+          external: true,
+        };
       }
 
-      if (id === 'react-dom') {
-        return { id: 'mendix:react-dom', external: true };
+      if (
+        id ===
+        "react-dom"
+      ) {
+        return {
+          id: "mendix:react-dom",
+          external: true,
+        };
       }
 
-      if (id === 'react-dom/client') {
-        return { id: 'mendix:react-dom/client', external: true };
+      if (
+        id ===
+        "react-dom/client"
+      ) {
+        return {
+          id: "mendix:react-dom/client",
+          external: true,
+        };
       }
 
-      if (id === 'react/jsx-runtime') {
-        return { id: 'mendix:react/jsx-runtime', external: true };
+      if (
+        id ===
+        "react/jsx-runtime"
+      ) {
+        return {
+          id: "mendix:react/jsx-runtime",
+          external: true,
+        };
       }
 
-      if (id === 'react/jsx-dev-runtime') {
-        return { id: 'mendix:react/jsx-dev-runtime', external: true };
+      if (
+        id ===
+        "react/jsx-dev-runtime"
+      ) {
+        return {
+          id: "mendix:react/jsx-dev-runtime",
+          external: true,
+        };
       }
     },
     load(id) {
-      if (id === 'mendix:react') {
+      if (
+        id ===
+        "mendix:react"
+      ) {
         return `
           const React = window.React;
           
@@ -71,7 +104,10 @@ export function mendixHotreloadReactPlugin(): Plugin {
         `;
       }
 
-      if (id === 'mendix:react-dom') {
+      if (
+        id ===
+        "mendix:react-dom"
+      ) {
         return `
           const ReactDOM = window.ReactDOM;
           
@@ -91,7 +127,10 @@ export function mendixHotreloadReactPlugin(): Plugin {
         `;
       }
 
-      if (id === 'mendix:react-dom/client') {
+      if (
+        id ===
+        "mendix:react-dom/client"
+      ) {
         return `
           const ReactDOMClient = window.ReactDOMClient;
           
@@ -102,7 +141,10 @@ export function mendixHotreloadReactPlugin(): Plugin {
         `;
       }
 
-      if (id === 'mendix:react/jsx-runtime') {
+      if (
+        id ===
+        "mendix:react/jsx-runtime"
+      ) {
         return `
           const ReactJSXRuntime = window.ReactJSXRuntime;
           
@@ -114,7 +156,10 @@ export function mendixHotreloadReactPlugin(): Plugin {
         `;
       }
 
-      if (id === 'mendix:react/jsx-dev-runtime') {
+      if (
+        id ===
+        "mendix:react/jsx-dev-runtime"
+      ) {
         return `
           const ReactJSXDevRuntime = window.ReactJSXDevRuntime;
           
@@ -124,6 +169,6 @@ export function mendixHotreloadReactPlugin(): Plugin {
           export default ReactJSXDevRuntime;
         `;
       }
-    }
+    },
   };
 }
