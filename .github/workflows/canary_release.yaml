@@ -1,16 +1,26 @@
 name: Canary version Release
 
 on:
-  pull_request:
-    types: [closed]
-    branches:
-      - develop
+  workflow_dispatch:
+    inputs:
+      new_features:
+        description: 'New features (leave empty if none)'
+        required: false
+        type: string
+        default: ''
+      bug_fixes:
+        description: 'Bug fixes (leave empty if none)'
+        required: false
+        type: string
+        default: ''
+      other_changes:
+        description: 'Other changes (leave empty if none)'
+        required: false
+        type: string
+        default: ''
 
 jobs:
   release:
-    if: |
-      github.event.pull_request.merged == true &&
-      contains(github.event.pull_request.labels.*.name, 'release')
     runs-on: ubuntu-latest
 
     permissions:
@@ -40,9 +50,8 @@ jobs:
         id: version
         run: |
           PACKAGE_VERSION=$(node -p "require('./package.json').version")
-          SHORT_SHA=$(git rev-parse --short HEAD)
-          VERSION_NUM=""
-          VERSION="${PACKAGE_VERSION}-canary-${SHORT_SHA}"
+          VERSION_SUFFIX=$(git rev-parse --short HEAD)
+          VERSION="${PACKAGE_VERSION}-canary-${VERSION_SUFFIX}"
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
 
       - name: Create and push tag
@@ -55,17 +64,40 @@ jobs:
       - name: Prepare release contents
         id: release_contents
         run: |
-          cat << 'EOF' > pr_body.txt
+          cat << 'EOF' > release_body.txt
           # 🚀 New Canary Release (`${{ steps.version.outputs.version }}`)
           
           EOF
-
-          cat << 'EOF' > pr_body.txt
-          ${{ github.event.pull_request.body }}
+          
+          # Add New Features section if provided
+          if [ -n "${{ github.event.inputs.new_features }}" ]; then
+            cat << 'EOF' >> release_body.txt
+          ## 🎉 New Features
+          ${{ github.event.inputs.new_features }}
+          
           EOF
+          fi
           
-          cat << 'EOF' >> pr_body.txt
+          # Add Bug Fixes section if provided
+          if [ -n "${{ github.event.inputs.bug_fixes }}" ]; then
+            cat << 'EOF' >> release_body.txt
+          ## 🐛 Bug Fixes
+          ${{ github.event.inputs.bug_fixes }}
           
+          EOF
+          fi
+          
+          # Add Other Changes section if provided
+          if [ -n "${{ github.event.inputs.other_changes }}" ]; then
+            cat << 'EOF' >> release_body.txt
+          ## 🔧 Other Changes
+          ${{ github.event.inputs.other_changes }}
+          
+          EOF
+          fi
+          
+          # Add installation and warning sections
+          cat << 'EOF' >> release_body.txt
           ## 📦 Installation
           ```bash
           npm install --dev @repixelcorp/hyper-pwt@${{ steps.version.outputs.version }}
@@ -77,7 +109,7 @@ jobs:
           EOF
           
           echo "body<<EOF" >> $GITHUB_OUTPUT
-          cat pr_body.txt >> $GITHUB_OUTPUT
+          cat release_body.txt >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
